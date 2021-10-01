@@ -1,0 +1,32 @@
+<div *ngIf="user == null">
+    <div>
+        <button class="signin-button" (click)="signIn()">Sign-In</button>
+    </div>
+
+</div>
+
+<div *ngIf="user != null">
+    <div class="welcome">Welcome, {{user.getBasicProfile().getName()}}</div>
+    <div *ngIf="user != null">
+        <button class="signout-button" (click)="signOut()" *ngIf="user != null">Sign-Out</button>
+    </div>
+</div>
+
+<div *ngIf="user == null" class="welcome-message">
+    <span>
+        G7 Email
+    </span>
+</div>
+
+<div *ngIf="user == null" class="send-receive-view">
+    <span>
+        Send.
+    </span>
+    <span>
+        View.
+    </span>
+    <span>
+        Receive.
+    </span>
+</div>
+

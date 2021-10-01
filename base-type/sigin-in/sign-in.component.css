@@ -1,0 +1,66 @@
+.signin-button{
+    position: absolute;
+    left: 88%;
+    background-color: #000080;
+    color: white;
+    border: #000080;
+    border-radius: 2px;
+    width: 8%;
+    height: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+}
+
+.signin-button:hover{
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.60);
+}
+
+
+.welcome{
+    position: absolute;
+    left: 66%;
+    font-family: sans-serif;
+    font-style: italic;
+    font-size: larger;
+}
+
+.welcome-message{
+    position: absolute;
+    left: 2%;
+    margin-top: 5%;
+    font-size: 3.5em;
+    font-weight: bolder;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-variant: small-caps;
+}
+
+.signout-button{
+    position: absolute;
+    left: 88%;
+    background-color: #000080;
+    color: white;
+    border: #000080;
+    border-radius: 2px;
+    width: 8%;
+    height: 30px;
+    
+}
+
+.signout-button:hover{
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.60);
+}
+
+.send-receive-view{
+    position: absolute;
+    left: 0%;
+    margin-top: 35%;
+    font-size: 3.5em;
+    font-weight: bold;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-variant: small-caps;
+
+    border-collapse: collapse;
+    margin-left: 30px;
+    width: 50%;
+
+}
