@@ -1,0 +1,73 @@
+
+<div>
+
+    <div>
+        <button (click)="show()">View Mail</button>
+    </div>
+
+    <div *ngIf="user != null && !compose_popup">
+        <div>
+            <table>
+                <tr *ngFor="let message of messages">
+                    <td>{{message.id}}</td>
+                    <td>
+                        <button (click)="getMessage(message.id)">GET MAIL</button>
+                    </td>
+                </tr>
+            </table>
+          <div>Body{{message}}</div><br>
+        </div>
+        <table>
+            <thead class="compose-button">
+                <tr>
+                    
+                </tr>
+            </thead>
+            <div class="Scroll">
+                <tbody>
+                    <button *ngIf="compose_button_popup" (click)="open_compose()">Compose</button>
+                    <tr *ngFor="let item of obj">
+                        <td>
+                            <label>
+                                <button (click)="list_button()" class="email-button">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            {{item.From}}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{item.Subject}}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{item.Snippet}}
+                                        </div>
+                                    </div>
+                                </button>
+                            </label>
+                        </td>
+                    </tr>
+                </tbody>
+            </div>
+        </table>
+    </div>
+</div>
+
+<ng-template [ngIf]="compose_popup">
+    <div>
+        <form #form="ngForm" (submit)="onSubmit(form)">
+            <div>
+                <input type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To">
+            </div>
+    
+            <div>
+                <input type="text" name="Subject" #Subject="ngModel" [(ngModel)]="gmailService.formData.Subject">
+            </div>
+    
+            <div>
+                <input type="text" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body">
+            </div>
+    
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</ng-template>
+
