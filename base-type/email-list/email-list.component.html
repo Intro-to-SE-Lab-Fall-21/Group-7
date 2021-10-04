@@ -52,21 +52,22 @@
 </div>
 
 <ng-template [ngIf]="compose_popup">
-    <div>
-        <form #form="ngForm" (submit)="onSubmit(form)">
+    <div class="send-form">
+        <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
             <div>
-                <input type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To">
+                <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off">
             </div>
+            <br>
     
             <div>
-                <input type="text" name="Subject" #Subject="ngModel" [(ngModel)]="gmailService.formData.Subject">
+                <input placeholder="Subject:" class="text-input-style" type="text" name="Subject" #Subject="ngModel" [(ngModel)]="gmailService.formData.Subject">
             </div>
-    
+            <br>
             <div>
-                <input type="text" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body">
+                <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" cols="70"></textarea>
             </div>
     
-            <button type="submit">Send</button>
+            <button class="submit-email-button" type="submit">Send</button>
         </form>
     </div>
 </ng-template>
