@@ -27,3 +27,57 @@
     left: 89%;
     margin-top: -3%;
 }
+
+.button-style{
+    background-color: #000080;
+    color: white;
+    border: #000080;
+    border-radius: 2px;
+    width: 8%;
+    height: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+}
+
+.send-form{
+    position: absolute;
+    left: 30%;
+    border-style: solid;
+    padding: 2%;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
+}
+
+.text-input-style{
+    width: 100%;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    outline-width: 0;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-color: #000080;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.body-input-style{
+    border: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    outline: none;
+    border-color: #000080;
+
+}
+
+.submit-email-button{
+    background-color: #000080;
+    color: white;
+    border: #000080;
+    border-radius: 2px;
+    width: 12%;
+    height: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+}
