@@ -2,7 +2,7 @@
 <div>
 
     <div>
-        <button (click)="show()">View Mail</button>
+        <button class="button-style" (click)="show()">View Inbox</button>
     </div>
 
     <div *ngIf="user != null && !compose_popup">
@@ -29,7 +29,7 @@
                     <tr *ngFor="let item of obj">
                         <td>
                             <label>
-                                <button (click)="list_button()" class="email-button">
+                                <button (click)="list_button(item.ID)" class="email-button">
                                     <div class="row">
                                         <div class="col-md-2">
                                             {{item.From}}
