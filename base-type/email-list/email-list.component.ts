@@ -8,6 +8,7 @@ class Person {
   From: string;
   Subject: string;
   Snippet: string;
+  ID: string;
   getJson() {
       return JSON.stringify(this);
   }
@@ -107,9 +108,10 @@ export class EmailListComponent implements OnInit {
 
 
 
-  list_button(){
+  list_button(value: any){
     console.log("HI")
     this.compose_popup = true;
+    console.log(value)
   }
 
   list(){
@@ -161,14 +163,16 @@ export class EmailListComponent implements OnInit {
             this.value_list.push(this.from)
             this.value_list.push(this.subject)
             this.value_list.push(this.snippet)
+            this.value_list.push(this.id_string)
             //console.log("AFTER PUSH: ", this.value_list)
             
 
             let person = new Person();
             person.From = this.value_list[0];
             person.Subject = this.value_list[1];
-            person.Snippet = this.value_list[2]
-            console.log(person);
+            person.Snippet = this.value_list[2];
+            person.ID = this.value_list[3];
+            console.log("Person: ", person);
             console.log(this.value_list[1])
             //this.obj = JSON.parse(JSON.stringify(person))
             this.obj.push(JSON.parse(JSON.stringify(person)))
@@ -250,6 +254,7 @@ export class EmailListComponent implements OnInit {
   onSubmit(form : NgForm){
     console.log(form.value)
     //this.service.sendEmail(form.value)
+    this.gmailService.sendEmail(this.user, form.value)
   }
 
   /*
