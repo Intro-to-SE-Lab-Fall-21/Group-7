@@ -5,7 +5,8 @@
         <button class="button-style" (click)="show()">View Inbox</button>
     </div>
 
-    <div *ngIf="user != null && !compose_popup">
+    <div *ngIf="user != null && !compose_popup && !read_popup">
+        <!--
         <div>
             <table>
                 <tr *ngFor="let message of messages">
@@ -17,6 +18,7 @@
             </table>
           <div>Body{{message}}</div><br>
         </div>
+        -->
         <table>
             <thead class="compose-button">
                 <tr>
@@ -29,7 +31,7 @@
                     <tr *ngFor="let item of obj">
                         <td>
                             <label>
-                                <button (click)="list_button(item.ID)" class="email-button">
+                                <button (click)="readEmail(item.ID)" class="email-button">
                                     <div class="row">
                                         <div class="col-md-2">
                                             {{item.From}}
@@ -69,6 +71,24 @@
     
             <button class="submit-email-button" type="submit">Send</button>
         </form>
+    </div>
+</ng-template>
+
+<ng-template [ngIf]="read_popup">
+    <div *ngFor="let item of obj2">
+        <div>
+            <div>
+                From: {{item.From}}
+            </div>
+            <br>
+            <div>
+                Subject: {{item.Subject}}
+            </div>
+            <br>
+            <div [innerHTML]="item.Body"></div>
+                
+        </div>
+        
     </div>
 </ng-template>
 
