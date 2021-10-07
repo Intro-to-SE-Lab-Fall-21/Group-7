@@ -46,6 +46,8 @@ export class EmailListComponent implements OnInit {
 
   read_popup = false;
 
+  stop_show = false;
+
   read_email_from = []
   read_email_subject = []
   read_email_body = []
@@ -100,10 +102,13 @@ export class EmailListComponent implements OnInit {
  
   show(){
     
-    if(this.user != null){
+    if(this.user != null && !this.stop_show){
       console.log("yes")
       this.list();
       this.compose_button_popup = true;
+      this.stop_show = true;
+    }else if(this.stop_show){
+      //
     }
     else{
       console.log("Yes")
