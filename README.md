@@ -16,3 +16,8 @@ A user should be able to send attachments (image, files etc.) along with an emai
 The user can login using their gmail account
 If the user don't have an gmail account they can create an account by clicking signin
 The user will be able to send, recieve, and view emails
+
+## Members
+Courtney Stovall <br>
+Jonathan Harjono <br>
+Breshia Donald <br>
