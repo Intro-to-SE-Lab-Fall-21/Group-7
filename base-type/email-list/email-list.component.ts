@@ -14,6 +14,15 @@ class Person {
   }
 }
 
+class Read_Email{
+  From: string;
+  Subject: string;
+  Body: string;
+  getJson() {
+    return JSON.stringify(this);
+}
+}
+
 @Component({
   selector: 'app-email-list',
   templateUrl: './email-list.component.html',
@@ -28,21 +37,34 @@ export class EmailListComponent implements OnInit {
   subject: string;
   from: string;
   snippet: string;
+  body: string;
   messageid = ""
   compose_popup = false;
   compose_button_popup = false;
 
   close_popup = false;
+
+  read_popup = false;
+
+  read_email_from = []
+  read_email_subject = []
+  read_email_body = []
+  read_email_id = []
+
+  request_to_read: string;
   
 
   list2 = []
   list3 = []
 
   obj = [];
+  obj2 = [];
 
   key_list = ["from", "subject", "snippet"]
   value_list = []
   separate_from = []
+
+  str: String = "THE <br> MAn"
 
   //test_dict = {"id": ["1", "2", "3"]}
 
@@ -90,6 +112,14 @@ export class EmailListComponent implements OnInit {
     
 
     this.compose_popup = false;
+    this.read_popup = false;
+    if(this.obj2 != undefined){
+      this.obj2.pop()
+      console.log("POP")
+    }
+    else{
+      console.log("no pop")
+    }
     //console.log("Called")
     
     /*
@@ -106,11 +136,30 @@ export class EmailListComponent implements OnInit {
     
   }
 
+  readEmail(value: any){
+    this.read_popup = true;
+
+    this.request_to_read = value
+    console.log("Request: ", this.request_to_read)
+    let request_index = this.read_email_id.indexOf(this.request_to_read)
+
+    console.log("Request From: ", this.read_email_from[request_index])
+
+    let open = new Read_Email();
+    open.From = this.read_email_from[request_index];
+    open.Subject = this.read_email_subject[request_index];
+    open.Body = this.read_email_body[request_index]
+    console.log("Open", open)
+    this.obj2.push(JSON.parse(JSON.stringify(open)))
+    
+    
+  }
+
 
 
   list_button(value: any){
     console.log("HI")
-    this.compose_popup = true;
+    //this.compose_popup = true;
     console.log(value)
   }
 
@@ -149,6 +198,7 @@ export class EmailListComponent implements OnInit {
           else if(this.gmailService.subject && this.gmailService.from && this.gmailService.snippet){
 
             this.subject = this.gmailService.subject
+            this.body = this.gmailService.body.replace(/\n/g, "<br />")
 
             //console.log("SUBJECT: ", this.subject)
             this.separate_from = this.gmailService.from.split("<")
@@ -164,7 +214,19 @@ export class EmailListComponent implements OnInit {
             this.value_list.push(this.subject)
             this.value_list.push(this.snippet)
             this.value_list.push(this.id_string)
+            
             //console.log("AFTER PUSH: ", this.value_list)
+
+            if(this.read_email_id.includes(this.id_string)){
+              console.log("yes includes")
+            }
+            else{
+              console.log("Nope it dont")
+              this.read_email_id.push(this.id_string)
+              this.read_email_from.push(this.from)
+              this.read_email_subject.push(this.subject)
+              this.read_email_body.push(this.body)
+            }
             
 
             let person = new Person();
@@ -201,6 +263,7 @@ export class EmailListComponent implements OnInit {
 
             */
 
+            console.log("IDS: ", this.read_email_id)
             
             
             
@@ -255,6 +318,7 @@ export class EmailListComponent implements OnInit {
     console.log(form.value)
     //this.service.sendEmail(form.value)
     this.gmailService.sendEmail(this.user, form.value)
+    this.resetForm(form)
   }
 
   /*
