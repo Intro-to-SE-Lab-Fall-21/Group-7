@@ -76,19 +76,17 @@
 
 <ng-template [ngIf]="read_popup">
     <div *ngFor="let item of obj2">
-        <div>
-            <div>
-                From: {{item.From}}
+        <div class="read-form read-scroll">
+            <div class="email-info">
+                {{item.From}}
             </div>
             <br>
-            <div>
-                Subject: {{item.Subject}}
+            <div class="email-info">
+                {{item.Subject}}
             </div>
             <br>
-            <div [innerHTML]="item.Body"></div>
-                
+            <div class="read_body" [innerHTML]="item.Body"></div>    
         </div>
-        
     </div>
 </ng-template>
 
