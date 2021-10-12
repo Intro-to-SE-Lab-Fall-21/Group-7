@@ -8,17 +8,25 @@
     border-bottom-style: none;
     font-size: larger;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    width: 238%;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 1px;
 }
 .email-button:hover{
-    box-shadow: 0 0 2.5px 2.5px rgba(0, 0, 0, 0.20);
+    box-shadow: 0 1.5px 2.5px rgba(0, 0, 0, 0.60);
+}
+
+.inbox{
+    position: relative;
+    
+    width: 100%;
 }
 
 .Scroll {
     position: absolute;
-    left: 20%;
-    height: 50%;
-    width: 79%;
+    left: 10%;
+    width: 60%;
+    height: 75%;
     overflow-y: scroll;
 }
 
@@ -53,15 +61,42 @@
     box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
 }
 
-.read-form{
+.reply-form{
     position: absolute;
-    left: 30%;
+    left: 55%;
     border-style: solid;
     padding: 2%;
     box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
+    width: 40%;
+}
+
+.read-form{
+    position: relative;
+    border-bottom-style: solid;
+    padding: 2%;
+}
+
+.read-scroll-form{
+    position: absolute;
+    border-style: solid;
+    left: 30%;
+    padding: 2%;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
     overflow-wrap: break-word;
-    width: 35%;
+    width: 40%;
     height: 85%;
+    overflow-y: scroll;
+}
+.read-scroll-form2{
+    position: absolute;
+    border-style: solid;
+    left: 10%;
+    padding: 2%;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
+    overflow-wrap: break-word;
+    width: 40%;
+    height: 85%;
+    overflow-y: scroll;
 }
 
 .read_body{
@@ -85,13 +120,34 @@
     padding-bottom: 5px;
     padding-top: 5px;
 }
-
+.table {
+    padding: 2px;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+  }
+.table-cell {
+    flex: 1 20%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+}
+.table-cell2 {
+    flex: 100 75%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+}
 .body-input-style{
     border: solid;
     border-width: 2px;
     border-radius: 5px;
     outline: none;
     border-color: #000080;
+    width: 100%;
+    height: 50%;
 
 }
 
