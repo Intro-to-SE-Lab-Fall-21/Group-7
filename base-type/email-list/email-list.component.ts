@@ -9,6 +9,7 @@ class Person {
   Subject: string;
   Snippet: string;
   ID: string;
+  Thread_ID: string;
   getJson() {
       return JSON.stringify(this);
   }
@@ -20,7 +21,7 @@ class Read_Email{
   Body: string;
   getJson() {
     return JSON.stringify(this);
-}
+  }
 }
 
 @Component({
@@ -48,16 +49,27 @@ export class EmailListComponent implements OnInit {
 
   stop_show = false;
 
+  reply_to_thread = false;;
+
   read_email_from = []
   read_email_subject = []
   read_email_body = []
   read_email_id = []
 
   request_to_read: string;
+
+  thread_body: string;
+  thread_subject: string;
+  thread_ID: string;
+
+  sender_email: string;
+  reply_subject: string;
   
 
   list2 = []
   list3 = []
+
+  reply_list = []
 
   obj = [];
   obj2 = [];
@@ -108,7 +120,7 @@ export class EmailListComponent implements OnInit {
       this.compose_button_popup = true;
       this.stop_show = true;
     }else if(this.stop_show){
-      //
+      this.resetForm();
     }
     else{
       console.log("Yes")
@@ -118,13 +130,20 @@ export class EmailListComponent implements OnInit {
 
     this.compose_popup = false;
     this.read_popup = false;
-    if(this.obj2 != undefined){
+    if(this.gmailService.obj3 != undefined){
       this.obj2.pop()
+      console.log(this.gmailService.obj3.length)
+      let empty_obj3 = this.gmailService.obj3.length
+      for(let i = 0; i < empty_obj3; i++){
+        this.gmailService.obj3.pop()
+      }
       console.log("POP")
     }
     else{
       console.log("no pop")
     }
+
+    //this.gmailService.getThread(this.user)
     //console.log("Called")
     
     /*
@@ -158,6 +177,12 @@ export class EmailListComponent implements OnInit {
     this.obj2.push(JSON.parse(JSON.stringify(open)))
     
     
+  }
+
+  threadEmail(value: any){
+    this.read_popup = true;
+    this.gmailService.getThread(this.user, value)
+
   }
 
 
@@ -212,6 +237,7 @@ export class EmailListComponent implements OnInit {
             this.from = this.separate_from[0]
   
             this.snippet = this.gmailService.snippet
+            this.thread_ID = this.gmailService.thread_ID
 
             
             this.value_list = []
@@ -219,6 +245,7 @@ export class EmailListComponent implements OnInit {
             this.value_list.push(this.subject)
             this.value_list.push(this.snippet)
             this.value_list.push(this.id_string)
+            this.value_list.push(this.thread_ID)
             
             //console.log("AFTER PUSH: ", this.value_list)
 
@@ -239,6 +266,7 @@ export class EmailListComponent implements OnInit {
             person.Subject = this.value_list[1];
             person.Snippet = this.value_list[2];
             person.ID = this.value_list[3];
+            person.Thread_ID = this.value_list[4]
             console.log("Person: ", person);
             console.log(this.value_list[1])
             //this.obj = JSON.parse(JSON.stringify(person))
@@ -324,6 +352,74 @@ export class EmailListComponent implements OnInit {
     //this.service.sendEmail(form.value)
     this.gmailService.sendEmail(this.user, form.value)
     this.resetForm(form)
+  }
+
+  onReply(form2 : NgForm){
+    console.log(form2.value)
+    this.gmailService.replyEmail(this.user, form2.value, this.gmailService.current_message_ID, this.gmailService.current_Reference_ID, this.gmailService.reply_thread_ID)
+    this.reply_to_thread = false
+    this.resetForm()
+    
+    setTimeout( () => {
+      let empty_obj3 = this.gmailService.obj3.length
+      for(let i = 0; i < empty_obj3; i++){
+        this.gmailService.obj3.pop()
+        console.log("OBSERVE onreply: ", this.gmailService.obj3)
+
+      }
+      this.threadEmail(this.gmailService.reply_thread_ID)
+    }, 7000 )
+    
+  }
+
+  reply_close(){
+    this.reply_to_thread = false
+    this.resetForm()
+
+  }
+
+  reply(){
+    console.log("REPLY")
+    console.log(this.gmailService.obj3)
+
+    for(let i = 0; i < this.gmailService.obj3.length; i++){
+
+      let email_reply: string = this.gmailService.obj3[i].From
+      let subject_reply: string = this.gmailService.obj3[i].Subject
+      console.log("SUBJECT THREADA REPLY", subject_reply)
+
+      this.reply_subject = subject_reply;
+
+      let email_length = email_reply.split(" ")
+      let index_length = email_length.length
+      console.log(index_length)
+      console.log("EMAIL HER: ", email_length)
+      console.log("GMAIL ACCOUNT: ", this.user.getBasicProfile().getEmail())
+      if(email_length[index_length - 1] != "<" + this.user.getBasicProfile().getEmail() + ">"){
+        this.reply_to_thread = true
+        
+        console.log(email_length[index_length - 1])
+        let reply_to_sender: string = email_length[index_length - 1].replace("<", "")
+        reply_to_sender = reply_to_sender.replace(">", "")
+        console.log(reply_to_sender)
+        this.sender_email = reply_to_sender
+        break
+        
+      }
+      console.log("PASSS")
+      
+      
+      //email_address.replace("<", "")
+      //email_address.replace(">", "")
+      //this.reply_list.push(email_address)
+      //console.log(this.reply_list[0])
+
+    }
+
+    console.log("STOPED")
+    this.gmailService.formData.To = this.sender_email
+    this.gmailService.formData.Subject = this.reply_subject
+    
   }
 
   /*
