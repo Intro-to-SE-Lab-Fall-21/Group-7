@@ -49,7 +49,8 @@ export class EmailListComponent implements OnInit {
 
   stop_show = false;
 
-  reply_to_thread = false;;
+  reply_to_thread = false;
+  forward_thread = false;
 
   read_email_from = []
   read_email_subject = []
@@ -374,6 +375,7 @@ export class EmailListComponent implements OnInit {
 
   reply_close(){
     this.reply_to_thread = false
+    this.forward_thread = false
     this.resetForm()
 
   }
@@ -420,6 +422,79 @@ export class EmailListComponent implements OnInit {
     this.gmailService.formData.To = this.sender_email
     this.gmailService.formData.Subject = this.reply_subject
     
+  }
+
+  onForward(form3 : NgForm){
+    console.log("FORAWRD REAPONSE: ", form3.value)
+    this.gmailService.sendEmail(this.user, form3.value)
+    this.resetForm()
+    this.reply_to_thread = false
+    this.forward_thread = false
+
+  }
+
+  forward(){
+    console.log("Forward")
+    this.forward_thread = true;
+    console.log(this.gmailService.obj3)
+
+    let forward_subject = "FWD: " + this.gmailService.obj3[0].Subject
+    console.log(forward_subject)
+
+    let compose_forward_body = '';
+
+    for(let i = 0; i < this.gmailService.obj3.length; i++){
+      compose_forward_body += this.gmailService.obj3[i].From + "\n" + this.gmailService.obj3[i].Subject + "\n" + this.gmailService.obj3[i].Body.replace(/<br>/g, '\n') + "\n\n"
+
+    }
+
+    console.log(compose_forward_body)
+
+    this.gmailService.formData.Subject = forward_subject;
+    this.gmailService.formData.Body = compose_forward_body;
+
+    /*
+
+    for(let i = 0; i < this.gmailService.obj3.length; i++){
+
+      let email_reply: string = this.gmailService.obj3[i].From
+      let subject_reply: string = this.gmailService.obj3[i].Subject
+      console.log("SUBJECT THREADA REPLY", subject_reply)
+
+      this.reply_subject = subject_reply;
+
+      let email_length = email_reply.split(" ")
+      let index_length = email_length.length
+      console.log(index_length)
+      console.log("EMAIL HERE: ", email_length)
+      console.log("GMAIL ACCOUNT: ", this.user.getBasicProfile().getEmail())
+      if(email_length[index_length - 1] != "<" + this.user.getBasicProfile().getEmail() + ">"){
+        this.reply_to_thread = true
+        
+        console.log(email_length[index_length - 1])
+        let reply_to_sender: string = email_length[index_length - 1].replace("<", "")
+        reply_to_sender = reply_to_sender.replace(">", "")
+        console.log(reply_to_sender)
+        this.sender_email = reply_to_sender
+        break
+        
+      }
+      console.log("PASSS")
+      
+      
+      //email_address.replace("<", "")
+      //email_address.replace(">", "")
+      //this.reply_list.push(email_address)
+      //console.log(this.reply_list[0])
+
+    }
+
+    console.log("STOPED")
+    this.gmailService.formData.To = this.sender_email
+    this.gmailService.formData.Subject = this.reply_subject
+
+    */
+
   }
 
   /*

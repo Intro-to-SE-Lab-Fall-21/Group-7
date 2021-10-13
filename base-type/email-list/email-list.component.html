@@ -64,8 +64,9 @@
 </ng-template>
 
 <ng-template [ngIf]="read_popup">
-    <div *ngIf="!reply_to_thread" class="read-scroll-form">
+    <div *ngIf="!reply_to_thread && !forward_thread" class="read-scroll-form">
         <button (click)="reply()">Reply</button>
+        <button (click)="forward()">Forward</button>
         
         <div *ngFor="let item of gmailService.obj3">
             <div class="read-form">
@@ -82,7 +83,7 @@
         </div>
     </div>
 
-    <div *ngIf="reply_to_thread" class="read-scroll-form2">
+    <div *ngIf="reply_to_thread || forward_thread" class="read-scroll-form2">
         
         <div *ngFor="let item of gmailService.obj3">
             <div class="read-form">
@@ -113,6 +114,26 @@
             <br>
             <div>
                 <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10"></textarea>
+            </div>
+    
+            <button class="submit-email-button" type="submit">Send</button>
+        </form>
+    </div>
+
+    <div *ngIf="forward_thread" class="reply-form">
+        <button (click)="reply_close()">X</button>
+        <form #form3="ngForm" (submit)="onForward(form3)" autocomplete="off">
+            <div>
+                <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off">
+            </div>
+            <br>
+    
+            <div>
+                <input placeholder="Subject:" class="text-input-style" type="text" name="Subject" #Subject="ngModel" [(ngModel)]="gmailService.formData.Subject" readonly>
+            </div>
+            <br>
+            <div>
+                <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" readonly></textarea>
             </div>
     
             <button class="submit-email-button" type="submit">Send</button>
