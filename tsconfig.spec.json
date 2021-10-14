@@ -7,7 +7,6 @@
       "jasmine",
       "gapi",
       "gapi.auth2",
-      "gapi.load",
       "gapi.client.gmail"
     ]
   },
