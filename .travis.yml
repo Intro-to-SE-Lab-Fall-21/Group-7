@@ -1,12 +1,11 @@
-dist: trusty
-sudo: false
-
 language: node_js
+sudo: required
 node_js:
   - '14'
 
 before_script:
-  - npm install
+  - sudo apt-get update
+  - sudo apt-get install google-chrome-stable
   - export CHROME_BIN=chromium-browser
 
 script:
@@ -19,4 +18,4 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
-  local_dir: dist/angular-travisci
+  local_dir: dist
