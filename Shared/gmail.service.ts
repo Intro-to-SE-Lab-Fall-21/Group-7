@@ -56,7 +56,7 @@ export class GmailService {
         gapi.client.gmail.users.messages.list({
           userId: user.getId(),
           access_token: refreshed.access_token,
-          maxResults: 10,
+          maxResults: 150,
           labelIds: "INBOX"
         }).then( response => {
           resolve(response.result)
