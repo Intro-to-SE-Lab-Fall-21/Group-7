@@ -5,12 +5,17 @@ language: node_js
 node_js:
   - '14'
 
-addons:
-  chrome: stable
-
-install:
+before_script:
   - npm install
 
 script:
-  - ng test
-  - npm run build
+  - npm run test:headless
+
+before_deploy:
+  - npm run build:prod
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/angular-travisci
