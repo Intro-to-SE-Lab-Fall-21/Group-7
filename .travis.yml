@@ -16,5 +16,6 @@ install:
   - npm install
 
 script:
+  - npm karma start
   - npm run test 
   - npm run build
