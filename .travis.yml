@@ -1,17 +1,23 @@
-language: node_js
-node_js:
-  - "8"
-  
 dist: trusty
 sudo: false
 
-addons:
-  chrome: stable
+language: node_js
+node_js:
+  - '8'
 
-before_script:
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
+cache:
+  directories:
+    - ./node_modules
+
+install:
   - npm install
 
 script:
-  - npm run test:headless
-  - npm run build
-  - xvfb-run npm run e2e
+  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
