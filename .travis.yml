@@ -4,9 +4,11 @@ node_js:
   - '14'
 
 before_script:
+  - npm init
   - sudo apt-get update
   - sudo apt-get install google-chrome-stable
   - export CHROME_BIN=chromium-browser
+  - npm install
 
 script:
   - npm run test
