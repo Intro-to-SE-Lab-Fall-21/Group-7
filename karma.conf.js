@@ -2,7 +2,7 @@
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
-  config.set({
+  var configuration = {
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
@@ -52,12 +52,13 @@ module.exports = function (config) {
       // Concurrency level
       // how many browser should be started simultaneous
       concurrency: Infinity
-    },
+    };
  
     if (process.env.TRAVIS) {
         configuration.browsers = ['Chrome_travis_ci'];
-    },
+    }
     singleRun: false,
     restartOnFileChange: true
-  });
+  
+config.set(configuration);
 };
