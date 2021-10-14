@@ -38,6 +38,25 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+    customLaunchers: {
+        Chrome_travis_ci: {
+          base: 'Chrome',
+          flags: ['--no-sandbox']
+        }
+      },
+ 
+      // Continuous Integration mode
+      // if true, Karma captures browsers, runs the tests and exits
+      singleRun: false,
+ 
+      // Concurrency level
+      // how many browser should be started simultaneous
+      concurrency: Infinity
+    },
+ 
+    if (process.env.TRAVIS) {
+        configuration.browsers = ['Chrome_travis_ci'];
+    },
     singleRun: false,
     restartOnFileChange: true
   });
