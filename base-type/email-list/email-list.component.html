@@ -21,8 +21,14 @@
         -->
 
         <div>
+            <div>
+                <form #form4="ngForm" (submit)="onSearch(form4)" autocomplete="off">
+                    <input placeholder="Search" (keyup)='text()' class="search-input-style" type="text" id="Search" name="Search" #Search="ngModel" [(ngModel)]="gmailService.formData.Search">
+                </form>
+                <br>
+            </div>
             <button *ngIf="compose_button_popup" (click)="open_compose()">Compose</button>
-            <div class="Scroll">
+            <div *ngIf="!search" class="Scroll">
                 <div class="inbox" *ngFor="let item of obj">
                     <button (click)="threadEmail(item.Thread_ID)" class="email-button">
      
@@ -36,7 +42,22 @@
                         </div>
                     </button>
                 </div>
-                
+            </div>
+
+            <div *ngIf="search" class="Scroll">
+                <div class="inbox" *ngFor="let item of search_obj">
+                    <button (click)="threadEmail(item.Thread_ID)" class="email-button">
+     
+                        <div class="table">
+                            <div class="table-cell">
+                                {{item.From}}
+                            </div>
+                            <div class="table-cell2">
+                                {{item.Subject}} - {{item.Snippet}}
+                            </div>
+                        </div>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

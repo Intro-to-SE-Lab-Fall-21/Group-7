@@ -51,6 +51,7 @@ export class EmailListComponent implements OnInit {
 
   reply_to_thread = false;
   forward_thread = false;
+  search = false;
 
   read_email_from = []
   read_email_subject = []
@@ -74,6 +75,7 @@ export class EmailListComponent implements OnInit {
 
   obj = [];
   obj2 = [];
+  search_obj = [];
 
   key_list = ["from", "subject", "snippet"]
   value_list = []
@@ -341,11 +343,27 @@ export class EmailListComponent implements OnInit {
   resetForm(form? : NgForm){
     if(form != null)
       form.resetForm()
-    this.gmailService.formData = {
-      To: '', 
-      Subject: '',
-      Body: '',
+
+    if(this.search){
+      this.gmailService.formData = {
+        To: '', 
+        Subject: '',
+        Body: '',
+        Search: this.gmailService.formData.Search,
+      }
     }
+    else{
+      this.gmailService.formData = {
+        To: '', 
+        Subject: '',
+        Body: '',
+        Search: '',
+      }
+
+      this.search_obj = []
+
+    }
+    
   }
 
   onSubmit(form : NgForm){
@@ -353,6 +371,39 @@ export class EmailListComponent implements OnInit {
     //this.service.sendEmail(form.value)
     this.gmailService.sendEmail(this.user, form.value)
     this.resetForm(form)
+  }
+
+  text(){
+
+    if((<HTMLInputElement>document.getElementById("Search")).value && (<HTMLInputElement>document.getElementById("Search")).value.length > 2){
+      this.search = true;
+    }
+    else{
+      this.search = false;
+    }
+
+    if((<HTMLInputElement>document.getElementById("Search")).value.length >= 3 && this.search_obj.length == 0){
+      var predictive_word = (<HTMLInputElement>document.getElementById("Search")).value
+      //this.service.predict_search.push(predictive_word)
+      //console.log(this.service.predict_search)
+      //this.service.Predictive_Search()
+
+      let search_param = '';
+      this.search_obj = [];
+      search_param = this.gmailService.formData.Search
+
+      for(let i = 0; i < this.obj.length; i++){
+        if(this.obj[i].From.includes(search_param)){
+          console.log(this.obj[i])
+          this.search_obj.push(this.obj[i])
+        }
+      }
+    }
+    else if((<HTMLInputElement>document.getElementById("Search")).value.length == 0){
+      this.resetForm()
+      this.search = false;
+      this.search_obj = [];
+    }
   }
 
   onReply(form2 : NgForm){

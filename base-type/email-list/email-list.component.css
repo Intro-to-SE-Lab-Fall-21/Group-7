@@ -120,6 +120,22 @@
     padding-bottom: 5px;
     padding-top: 5px;
 }
+
+.search-input-style{
+    width: 40%;
+    position: absolute;
+    left: 20%;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    outline-width: 0;
+    border-color: #000080;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+
+}
 .table {
     padding: 2px;
     width: 100%;
