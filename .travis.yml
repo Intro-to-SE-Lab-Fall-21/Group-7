@@ -16,6 +16,5 @@ install:
   - npm install
 
 script:
-  - karma start
-  - npm run test 
+  - ng test --karma-config src/karma.conf.js
   - npm run build
