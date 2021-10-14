@@ -13,8 +13,8 @@ addons:
   chrome: stable
 
 before_script:
-  - cd Configurations
   - npm install
+  - cd Configurations
 
 script:
   - npm run lint
