@@ -177,7 +177,7 @@ export class GmailService {
       "Subject: " + Subject + "\r\n\r\n" +
       Body;
 
-      const encodedMessage = btoa(message)
+      const encodedMessage = btoa(unescape(encodeURIComponent(message)))
 
       const reallyEncodedMessage = encodedMessage.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
 
@@ -270,7 +270,7 @@ export class GmailService {
               console.log("ThREAD BODY WITHOUT PARTS: ", response.result.messages[i].payload.body.data)
               this.thread_body = response.result.messages[i].payload.body.data
               this.thread_body = this.thread_body.replace(/-/g, '/')
-              this.thread_body = atob(this.thread_body).replace(/\n/g, "<br />")
+              this.thread_body = atob(this.thread_body).replace(/\n/g, "<br>")
               //console.log("THREAD BODIES With Parts: ", response.result.messages[i].payload.parts[0].body)
             }
             else if(response.result.messages[i].payload.body){
@@ -278,7 +278,7 @@ export class GmailService {
               this.thread_body = response.result.messages[i].payload.parts[0].body.data
               this.thread_body = this.thread_body.replace(/-/g, '/')
               //this.thread_body = atob(this.thread_body).replace(/\n/g, "<br />")
-              this.thread_body = atob(unescape(encodeURIComponent(this.thread_body))).replace(/\n/g, "<br />")
+              this.thread_body = atob(unescape(encodeURIComponent(this.thread_body))).replace(/\n/g, "<br>")
             }
 
             
