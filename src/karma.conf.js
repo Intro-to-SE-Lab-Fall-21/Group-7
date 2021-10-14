@@ -33,12 +33,6 @@ module.exports = function (config) {
       ]
     },
     reporters: ['progress', 'kjhtml'],
-    customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'Chrome',
-        flags: ['--no-sandbox']
-      }
-    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
