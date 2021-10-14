@@ -13,9 +13,9 @@ cache:
     - ./node_modules
 
 install:
+  - npm install @angular-devkit/build-angular --save-dev
   - npm install
 
 script:
-  - npm karma start
   - npm run test 
   - npm run build
