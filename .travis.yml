@@ -1,24 +1,23 @@
+dist: trusty
+sudo: false
+
 language: node_js
-sudo: required
 node_js:
   - '14'
 
-before_script:
-  - npm init
-  - sudo apt-get update
-  - sudo apt-get install google-chrome-stable
-  - export CHROME_BIN=chromium-browser
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
+cache:
+  directories:
+    - ./node_modules
+
+install:
   - npm install
 
 script:
-  - npm run test
-
-before_deploy:
-  - npm run build:prod
-
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  local_dir: dist
-  
+  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
