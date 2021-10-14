@@ -7,8 +7,8 @@
       "jasmine",
       "gapi",
       "gapi.auth2",
-      "gapi.client.gmail",
-      "gapi.load"
+      "gapi.load",
+      "gapi.client.gmail"
     ]
   },
   "files": [
