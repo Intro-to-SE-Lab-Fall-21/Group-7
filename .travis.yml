@@ -15,6 +15,7 @@ addons:
 before_script:
   - npm install
   - cd Configurations
+  - package.json
 
 script:
   - npm run lint
