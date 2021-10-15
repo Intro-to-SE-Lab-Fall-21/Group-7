@@ -92,8 +92,8 @@
             <div>
                 <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" cols="70"></textarea>
             </div>
-    
-            <button class="submit-email-button" type="submit">Send</button>
+            <span><button class="submit-email-button" type="submit">Send</button><span class="checkbox_input"><input id="check" class="check_margin" type="checkbox">Save as Draft</span></span>
+            
         </form>
     </div>
 </ng-template>

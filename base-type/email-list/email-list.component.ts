@@ -381,8 +381,18 @@ export class EmailListComponent implements OnInit {
 
   onSubmit(form : NgForm){
     console.log(form.value)
+
+    let element = <HTMLInputElement> document.getElementById("check");
+    if(element.checked){
+      console.log("Call Create draft Function")
+      this.gmailService.createDraft(this.user, form.value)
+      
+    }
+    else{
+      this.gmailService.sendEmail(this.user, form.value)
+    }
     //this.service.sendEmail(form.value)
-    this.gmailService.sendEmail(this.user, form.value)
+    //this.gmailService.sendEmail(this.user, form.value)
     this.resetForm(form)
   }
 
