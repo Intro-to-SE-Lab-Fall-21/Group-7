@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { interval } from 'rxjs';
 import { Gmail } from './gmail.model';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpHeaders } from '@angular/common/http';
 
 class Thread_Email{
   From: string;
@@ -24,21 +26,32 @@ export class GmailService {
   sub: any;
   list3 = [];
   obj3 = [];
+  downloads_url: string;
   thread_body: string;
   thread_subject: string;
   thread_from: string;
   thread_ID: string;
+  file_name: string;
+  type_name: string;
+  attachment_id: string;
+  message_id: string;
 
   current_message_ID: string;
   current_Reference_ID: string;
   reply_thread_ID: string;
+
+  dowload_attachment = false;
 
 
   id_string: string;
 
   formData : Gmail;
 
-  constructor() { 
+  readonly rootURLp = 'https://jwo9zx9c16.execute-api.us-east-2.amazonaws.com/upload';
+  //readonly rootURLp = "https://qbe7mtvfjl.execute-api.us-east-2.amazonaws.com/upload_files"
+  readonly rootURLd = 'https://jwo9zx9c16.execute-api.us-east-2.amazonaws.com/download';
+
+  constructor(private http : HttpClient) { 
     gapi.load('client', () => {
       gapi.client.init({
         apiKey: 'AIzaSyD1tTNrHG5yPvy89nvZYl6xcTte4mvHjw4',
@@ -56,7 +69,7 @@ export class GmailService {
         gapi.client.gmail.users.messages.list({
           userId: user.getId(),
           access_token: refreshed.access_token,
-          maxResults: 150,
+          maxResults: 30,
           labelIds: "INBOX"
         }).then( response => {
           resolve(response.result)
@@ -275,7 +288,38 @@ export class GmailService {
             }
             else if(response.result.messages[i].payload.body){
               console.log("ThREAD BODY PARTS: ", response.result.messages[i].payload.body)
-              this.thread_body = response.result.messages[i].payload.parts[0].body.data
+              //this.thread_body = response.result.messages[i].payload.parts[0].body.data
+              if(response.result.messages[i].payload.parts[0].body.size == 0){
+                console.log("NULL BODY")
+
+                this.thread_body = response.result.messages[i].payload.parts[0].parts[0].body.data
+
+                if(response.result.messages[i].payload.parts.length >= 2){
+                  console.log("RECOGNIZE FILE")
+                  this.attachment_id = response.result.messages[i].payload.parts[1].body.attachmentId
+                  this.message_id = response.result.id
+                  this.file_name = response.result.messages[i].payload.parts[1].filename
+                  this.type_name = response.result.messages[i].payload.parts[1].mimeType
+
+                  this.getAttachment(user, this.attachment_id, this.message_id)
+                  this.dowload_attachment = true;
+
+                  //this.FileUpload(base64, this.file_name, type)
+
+                }
+                else{
+                  console.log("NO FILE")
+                  this.dowload_attachment = false;
+                  this.attachment_id = '';
+                  this.message_id = '';
+                  this.file_name = '';
+                  this.type_name = '';
+                }
+
+              }
+              else{
+                this.thread_body = response.result.messages[i].payload.parts[0].body.data
+              }
               this.thread_body = this.thread_body.replace(/-/g, '/')
               //this.thread_body = atob(this.thread_body).replace(/\n/g, "<br />")
               this.thread_body = atob(unescape(encodeURIComponent(this.thread_body))).replace(/\n/g, "<br>")
@@ -342,6 +386,17 @@ export class GmailService {
 
           this.snippet = response.result.snippet
 
+          console.log("FILE NAME: ", this.file_name)
+
+          if(this.dowload_attachment){
+            setTimeout( () => {
+              this.Filedownload(this.file_name)
+              console.log("DOWNLOADER CALLED")
+            
+            }, 3000 )
+          }
+
+
           //console.log("From: ", this.from)
           //console.log("Subject: ", this.subject)
           //console.log("Snippet: ", this.snippet)
@@ -355,6 +410,76 @@ export class GmailService {
       })
     })
     
+  }
+
+  FileUpload(base64){
+
+    //this.formData.filename_upload = this.file_to_upload[0]
+    console.log("TYPE", this.type_name)
+    //console.log("BEFOER: ", btoa(base64))
+    //base64 = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+    //console.log("BASE REMOVE: ", base64.replace(/-/g, "+").replace(/_/g, '/'))
+    base64 = base64.replace(/-/g, "+").replace(/_/g, '/')
+    //console.log(atob(base64))
+    //let b = atob(base64)
+    //console.log(atob(b))
+    console.log(base64)
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Accept':"*/*",
+        'Content-Type': this.type_name, 
+     })
+    };
+    
+    this.http.post(this.rootURLp, {
+      params:{
+        filename_upload: base64,
+        File_metadata_name: this.file_name,
+
+      },
+    }, httpOptions)
+    .toPromise()
+    .catch(console.log);
+  }
+
+  Filedownload(file_name: string){
+
+    
+    this.http.get(this.rootURLd, {
+      params:{
+        Name: file_name,
+      },
+    })
+    .toPromise()
+    .then(response => {
+      //let url = response[0]
+      this.downloads_url = response[0];
+      console.log(this.downloads_url)
+      
+      
+    })
+    .catch(console.log);
+  }
+
+  public getAttachment(user:gapi.auth2.GoogleUser, attachment_id: string, message_id: string) : Promise<string>{
+    return new Promise(resolve => {
+      user.reloadAuthResponse().then(refreshed => {
+        gapi.client.gmail.users.messages.attachments.get({
+          userId: "stvllcourtney31@gmail.com",
+          id: attachment_id,
+          messageId: message_id
+        }).then( response => {
+          resolve(response.result[0])
+          console.log(response.result.data)
+          let base64 = ''
+          base64 = response.result.data
+
+          this.FileUpload(base64)
+
+        })
+      })
+    })
   }
 
   public getMessage(user: gapi.auth2.GoogleUser, id: string) : Promise<string>{
