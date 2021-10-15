@@ -8,6 +8,7 @@ import { BaseTypeComponent } from './base-type/base-type.component';
 import { SignInComponent } from './base-type/sign-in/sign-in.component';
 import { EmailListComponent } from './base-type/email-list/email-list.component';
 import { GmailService } from './shared/gmail.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { GmailService } from './shared/gmail.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [GmailService, FormsModule, BaseTypeComponent],
   bootstrap: [AppComponent]
