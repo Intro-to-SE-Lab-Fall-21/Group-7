@@ -24,6 +24,7 @@ export class GmailService {
   body = '';
   snippet = '';
   sub: any;
+  //Comment this out
   list3 = [];
   obj3 = [];
   downloads_url: string;
@@ -73,12 +74,15 @@ export class GmailService {
           labelIds: "INBOX"
         }).then( response => {
           resolve(response.result)
-          //console.log(response.result.messages)
+          console.log("IG: ", response.result.messages)
+          
+          //COMMENT THIS OUT
           for (var product of response.result.messages) {
             this.list3.push(product.id)
             //console.log("P", product.id)
             //this.getMessage(product.id)
           }
+          
           //interval(3000).subscribe(x => console.log("W"))
 
           /*
@@ -213,6 +217,64 @@ export class GmailService {
       alert(JSON.stringify({message: "fail", value: fail}));
     });
   }
+  
+  public createDraft(user: gapi.auth2.GoogleUser, formData: Gmail){
+    console.log(formData)
+    const auth2 = gapi.auth2.getAuthInstance(); 
+    console.log("FormData: To", this.formData.To)
+
+    const option = new gapi.auth2.SigninOptionsBuilder();
+    option.setScope('email https://www.googleapis.com/auth/gmail.compose');
+  
+    const googleUser = auth2.currentUser.get();
+    googleUser.grant(option).then(
+    function(success){
+      console.log(JSON.stringify({message: "success", value: success}));
+      
+      const name = user.getBasicProfile().getName();
+      const email = user.getBasicProfile().getEmail();
+      const To = formData.To
+      const Subject = formData.Subject
+      const Body = formData.Body
+      
+      
+      console.log("NAMWE: ", name)
+      
+      const message =
+      "From: " + name +  "<" + email + ">\r\n" +
+      "To: " + To + "\r\n" +
+      "Subject: " + Subject + "\r\n\r\n" +
+      Body;
+
+      console.log(message)
+
+      const encodedMessage = btoa(unescape(encodeURIComponent(message)))
+
+      const reallyEncodedMessage = encodedMessage.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+
+      gapi.load('client:auth2', () => {
+        gapi.client.load('gmail', 'v1', () => {
+          console.log('Loaded Gmail');
+            console.log('pop')
+            gapi.client.gmail.users.drafts.create({
+              'userId': 'me',
+              'resource': {
+                'id': '',
+                'message': {
+                  'raw': reallyEncodedMessage
+                }
+              }
+            }).then(res => {
+              console.log("done!", res)
+            });
+          })
+      });
+    },
+    function(fail){
+      alert(JSON.stringify({message: "fail", value: fail}));
+    });
+  }
+  
 
   public getThread(user: gapi.auth2.GoogleUser, thread_id: string) : Promise<string>{
     //console.log(user.getAuthResponse().expires_at)
