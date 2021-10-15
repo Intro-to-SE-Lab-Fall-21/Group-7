@@ -106,9 +106,13 @@ export class EmailListComponent implements OnInit {
       //this.messages = null;
       //this.message = null;
       this.ref.detectChanges()
+      console.log("USER is logged in")
+      document.getElementById("show_inbox").click();
       //this.prints();
       //this.list();
     })
+
+    
   }
 
   prints(){
@@ -124,6 +128,13 @@ export class EmailListComponent implements OnInit {
       this.stop_show = true;
     }else if(this.stop_show){
       this.resetForm();
+      this.gmailService.dowload_attachment = false;
+      this.gmailService.attachment_id = '';
+      this.gmailService.message_id = '';
+      this.gmailService.file_name = '';
+      this.gmailService.type_name = '';
+      this.reply_to_thread = false;
+      this.forward_thread = false;
     }
     else{
       console.log("Yes")
@@ -184,6 +195,8 @@ export class EmailListComponent implements OnInit {
 
   threadEmail(value: any){
     this.read_popup = true;
+    this.compose_popup = false;
+    this.resetForm()
     this.gmailService.getThread(this.user, value)
 
   }
@@ -371,6 +384,11 @@ export class EmailListComponent implements OnInit {
     //this.service.sendEmail(form.value)
     this.gmailService.sendEmail(this.user, form.value)
     this.resetForm(form)
+  }
+
+  send_close(){
+    this.resetForm()
+    this.compose_popup = false;
   }
 
   text(){
