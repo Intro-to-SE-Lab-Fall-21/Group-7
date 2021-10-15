@@ -1,11 +1,19 @@
 
 <div>
+    
+    <div class="auto-button">
+        <button class="hide" id="show_inbox" (click)="show()"></button>
+    </div>
+    
+    <div class="nav-bar" *ngIf="user != null">
+        <button class="button-style-nav" (click)="show()">View Inbox</button>
+        <br>
+        <button class="button-style-nav" (click)="open_compose()">Compose</button>
 
-    <div>
-        <button class="button-style" (click)="show()">View Inbox</button>
     </div>
 
-    <div *ngIf="user != null && !compose_popup && !read_popup">
+
+    <div *ngIf="user != null && !read_popup">
         <!--
         <div>
             <table>
@@ -19,22 +27,27 @@
           <div>Body{{message}}</div><br>
         </div>
         -->
-
         <div>
+            
             <div>
+                <div class="compose_div" *ngIf="user != null">
+                    <button class="compose-style" (click)="open_compose()">Compose</button>
+                </div>
                 <form #form4="ngForm" (submit)="onSearch(form4)" autocomplete="off">
                     <input placeholder="Search" (keyup)='text()' class="search-input-style" type="text" id="Search" name="Search" #Search="ngModel" [(ngModel)]="gmailService.formData.Search">
                 </form>
                 <br>
+                <br>
             </div>
-            <button *ngIf="compose_button_popup" (click)="open_compose()">Compose</button>
             <div *ngIf="!search" class="Scroll">
                 <div class="inbox" *ngFor="let item of obj">
                     <button (click)="threadEmail(item.Thread_ID)" class="email-button">
      
                         <div class="table">
                             <div class="table-cell">
-                                {{item.From}}
+                                <div class="bold">
+                                    {{item.From}}
+                                </div>
                             </div>
                             <div class="table-cell2">
                                 {{item.Subject}} - {{item.Snippet}}
@@ -65,6 +78,7 @@
 
 <ng-template [ngIf]="compose_popup">
     <div class="send-form">
+        <button (click)="send_close()">X</button>
         <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
             <div>
                 <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off">
@@ -88,6 +102,7 @@
     <div *ngIf="!reply_to_thread && !forward_thread" class="read-scroll-form">
         <button (click)="reply()">Reply</button>
         <button (click)="forward()">Forward</button>
+        <a *ngIf="gmailService.dowload_attachment" href="{{gmailService.downloads_url}}" id="myLink"><button class="">Attachment</button></a>
         
         <div *ngFor="let item of gmailService.obj3">
             <div class="read-form">
@@ -105,7 +120,7 @@
     </div>
 
     <div *ngIf="reply_to_thread || forward_thread" class="read-scroll-form2">
-        
+        <a *ngIf="gmailService.dowload_attachment" href="{{gmailService.downloads_url}}" id="myLink"><button class="">Attachment</button></a>
         <div *ngFor="let item of gmailService.obj3">
             <div class="read-form">
                 <div class="email-info">
