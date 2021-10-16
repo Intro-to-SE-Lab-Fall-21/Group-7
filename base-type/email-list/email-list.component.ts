@@ -15,6 +15,20 @@ class Person {
   }
 }
 
+class Drafts {
+  Draft_ID: string;
+  Message_ID: string;
+  Message_ThreadID: string;
+  Snippet: string;
+  From: string;
+  To: string;
+  Subject: string;
+  Body: string;
+  getJson() {
+    return JSON.stringify(this);
+  }
+}
+
 class Read_Email{
   From: string;
   Subject: string;
@@ -34,7 +48,9 @@ export class EmailListComponent implements OnInit {
 
   user: gapi.auth2.GoogleUser;
   messages: gapi.client.gmail.Message[]
+  draft_messages: gapi.client.gmail.Draft[]
   message: string;
+  draft_message: string;
   subject: string;
   from: string;
   snippet: string;
@@ -48,10 +64,14 @@ export class EmailListComponent implements OnInit {
   read_popup = false;
 
   stop_show = false;
+  stop_show_drafts_inbox = false;
 
   reply_to_thread = false;
   forward_thread = false;
   search = false;
+  open_draft_inbox = false;
+
+  draft_edit = false;
 
   read_email_from = []
   read_email_subject = []
@@ -64,24 +84,39 @@ export class EmailListComponent implements OnInit {
   thread_subject: string;
   thread_ID: string;
 
+  draft_subject: string;
+  draft_from: string;
+  draft_to: string;
+  draft_body: string;
+  draft_snippet: string;
+  draft_id: string;
+  draft_message_id: string;
+  draft_message_thread_id: string;
+
   sender_email: string;
   reply_subject: string;
   
 
   list2 = []
   list3 = []
+  draft_id_list = []
 
   reply_list = []
 
   obj = [];
   obj2 = [];
   search_obj = [];
+  draft_obj = [];
 
   key_list = ["from", "subject", "snippet"]
-  value_list = []
+  value_list = [];
+  draft_value_list = [];
   separate_from = []
+  separate_draft_from = []
 
   str: String = "THE <br> MAn"
+
+  draft_list_obj = {}
 
   //test_dict = {"id": ["1", "2", "3"]}
 
@@ -94,6 +129,7 @@ export class EmailListComponent implements OnInit {
   test: boolean = false;
   flag: boolean = false;
   id_string: string = '';
+  draft_id_string: string = '';
 
   constructor(private signInService: GoogleSignService, private gmailService: GmailService, private ref : ChangeDetectorRef) { }
 
@@ -135,6 +171,8 @@ export class EmailListComponent implements OnInit {
       this.gmailService.type_name = '';
       this.reply_to_thread = false;
       this.forward_thread = false;
+      this.open_draft_inbox = false;
+      this.draft_edit = false;
     }
     else{
       console.log("Yes")
@@ -207,6 +245,135 @@ export class EmailListComponent implements OnInit {
     console.log("HI")
     //this.compose_popup = true;
     console.log(value)
+  }
+
+  edit_draft(value: any){
+    console.log(value)
+    this.draft_edit = true;
+    this.compose_popup = false;
+
+    for(let i = 0; i < this.draft_obj.length; i++){
+      if(this.draft_obj[i].Draft_ID == value){
+        console.log("Yes")
+        this.gmailService.formData.To = this.draft_obj[i].To;
+        this.gmailService.formData.Subject = this.draft_obj[i].Subject;
+        this.gmailService.formData.Body = this.draft_obj[i].Body;
+        break
+      }
+      else{
+        console.log("NOPE")
+      }
+    }
+
+
+    //this.gmailService.formData.To = this.draft_obj[5].To
+
+  }
+
+  draft_close(){
+    this.draft_edit = false;
+    this.resetForm()
+  }
+
+  draftList(){
+    console.log("Draft List called")
+    this.open_draft_inbox = true;
+    this.read_popup = false;
+    if(this.user != null && !this.stop_show_drafts_inbox){
+      this.stop_show_drafts_inbox = true;
+      this.gmailService.draftList(this.user)
+      .then(result => {
+        console.log("List: ", result.drafts)
+        this.draft_id_list = result.drafts
+        console.log("New List: ", this.draft_id_list)
+        this.draft_messages = result.drafts
+        this.ref.detectChanges()
+      })
+      interval(750).subscribe(x => {
+        if(x < this.draft_id_list.length){
+          console.log(this.draft_id_list[x].id)
+  
+          this.draft_id_string = this.draft_id_list[x].id
+          this.gmailService.getDraftMessage(this.user, this.draft_id_string)
+          .then(result => {
+            this.draft_message = result
+  
+            if(this.gmailService.draft_Subject == '' || this.gmailService.draft_From == '' || this.gmailService.draft_Snippet == ''){
+              //
+            }
+            else if(this.gmailService.draft_Subject && this.gmailService.draft_From && this.gmailService.draft_Snippet){
+              this.draft_subject = this.gmailService.draft_Subject
+              this.draft_body = this.gmailService.draft_Body.replace(/\n/g, "<br />")
+  
+              this.separate_draft_from = this.gmailService.draft_From.split("<")
+              console.log(this.separate_draft_from)
+  
+              this.draft_from = this.separate_draft_from[0]
+              this.draft_to = this.gmailService.draft_To
+              this.draft_snippet = this.gmailService.draft_Snippet
+              this.draft_id = this.gmailService.draft_ID
+              this.draft_message_id = this.gmailService.draft_message_ID
+              this.draft_message_thread_id = this.gmailService.draft_message_ThreadID
+  
+              this.draft_value_list = []
+              this.draft_value_list.push(this.draft_id)
+              this.draft_value_list.push(this.draft_message_id)
+              this.draft_value_list.push(this.draft_message_thread_id)
+              this.draft_value_list.push(this.gmailService.draft_Snippet)
+              this.draft_value_list.push(this.gmailService.draft_From)
+              this.draft_value_list.push(this.gmailService.draft_To)
+              this.draft_value_list.push(this.gmailService.draft_Subject)
+              this.draft_value_list.push(this.gmailService.draft_Body)
+  
+              let drafts = new Drafts();
+              drafts.Draft_ID = this.draft_value_list[0];
+              drafts.Message_ID = this.draft_value_list[1];
+              drafts.Message_ThreadID = this.draft_value_list[2];
+              drafts.Snippet = this.draft_value_list[3]
+              drafts.From = this.draft_value_list[4]
+              drafts.To = this.draft_value_list[5]
+              drafts.Subject = this.draft_value_list[6]
+              drafts.Body = this.draft_value_list[7]
+              this.draft_obj.push(JSON.parse(JSON.stringify(drafts)))
+  
+              this.draft_value_list = null
+  
+              
+  
+            }
+            else{
+              console.log("FATAL ERROR")
+            }
+            //this.ref.detectChanges()
+          })
+        }
+  
+        //console.log(this.draft_obj)
+        
+      })
+      /*
+      .then(result => {
+        console.log("THE LIST LIST: ", result)
+        this.draft_list_obj = result
+        //console.log(this.draft_list_obj.drafts[0])
+      })
+      */
+      //console.log("GOT THE LIST: ", this.gmailService.draft_id)
+      //console.log(this.gmailService.draft_id.length)
+      /*
+      for(let i = 0; i < this.gmailService.draft_id.length; i++){
+        console.log(i, "getdrafts called")
+      }
+      */
+    }
+    else if(this.stop_show_drafts_inbox){
+      console.log("STOP")
+    }
+
+    else{
+      console.log("CHECK IT")
+    }
+    
   }
 
   list(){
@@ -342,8 +509,10 @@ export class EmailListComponent implements OnInit {
     console.log("clicked")
 
     if(this.user != null){
+      this.resetForm()
       console.log("yes")
       this.compose_popup = true;
+      this.draft_edit = false;
       console.log(this.compose_popup)
     }
     else{
