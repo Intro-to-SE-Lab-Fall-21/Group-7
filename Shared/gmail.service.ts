@@ -27,11 +27,14 @@ export class GmailService {
   //Comment this out
   list3 = [];
   obj3 = [];
+  draft_id = []
   downloads_url: string;
+
   thread_body: string;
   thread_subject: string;
   thread_from: string;
   thread_ID: string;
+
   file_name: string;
   type_name: string;
   attachment_id: string;
@@ -40,6 +43,15 @@ export class GmailService {
   current_message_ID: string;
   current_Reference_ID: string;
   reply_thread_ID: string;
+
+  draft_ID: string;
+  draft_message_ID: string;
+  draft_message_ThreadID: string;
+  draft_Snippet: string;
+  draft_From: string;
+  draft_To: string;
+  draft_Subject: string;
+  draft_Body: string;
 
   dowload_attachment = false;
 
@@ -63,6 +75,42 @@ export class GmailService {
     })
   }
 
+  public draftList(user: gapi.auth2.GoogleUser) : Promise<gapi.client.gmail.ListDraftsResponse>{
+    return new Promise( resolve => {
+      user.reloadAuthResponse().then(refreshed => {
+        gapi.client.gmail.users.drafts.list({
+          userId: user.getId(),
+          access_token: refreshed.access_token,
+          maxResults: 5,
+        }).then( response => {
+          resolve(response.result)
+          console.log("draft id", response.result.drafts)
+
+          /*
+          for(let i = 0; i < response.result.drafts.length; i++){
+            this.draft_id.push(response.result.drafts[i].message.id)
+            console.log("PUSH")
+          }
+          console.log(this.draft_id)
+
+          for(let i = 0; i < this.draft_id.length; i++){
+            setTimeout( () => {
+              //this.Filedownload(this.file_name)
+              console.log("GETTER CALLED")
+            
+            }, 5000 )
+
+
+            console.log("STOPPEDS")
+          }
+          */
+
+          
+        })
+      })
+    })
+  }
+
   public list(user: gapi.auth2.GoogleUser) : Promise<gapi.client.gmail.ListMessagesResponse> {
     console.log(user.getAuthResponse().expires_at)
     return new Promise( resolve =>{
@@ -70,7 +118,7 @@ export class GmailService {
         gapi.client.gmail.users.messages.list({
           userId: user.getId(),
           access_token: refreshed.access_token,
-          maxResults: 30,
+          maxResults: 10,
           labelIds: "INBOX"
         }).then( response => {
           resolve(response.result)
@@ -539,6 +587,41 @@ export class GmailService {
 
           this.FileUpload(base64)
 
+        })
+      })
+    })
+  }
+
+  public getDraftMessage(user: gapi.auth2.GoogleUser, draft_id: string) : Promise<string>{
+    return new Promise(resolve => {
+      user.reloadAuthResponse().then(refreshed => {
+        gapi.client.gmail.users.drafts.get({
+          userId: user.getId(),
+          access_token: user.getAuthResponse().access_token,
+          id: draft_id
+        }).then ( response => {
+          resolve(response.result.message.id)
+
+          this.draft_ID = response.result.id
+          this.draft_message_ID = response.result.message.id
+          this.draft_message_ThreadID = response.result.message.threadId
+          this.draft_Snippet = response.result.message.snippet
+          this.draft_From = response.result.message.payload.headers.find(x => x.name === 'From').value
+          this.draft_To = response.result.message.payload.headers.find(x => x.name === 'To').value
+          this.draft_Subject = response.result.message.payload.headers.find(x => x.name === 'Subject').value
+          this.draft_Body = response.result.message.payload.body.data
+
+          this.draft_Body = this.draft_Body.replace(/-/g, '/')
+          this.draft_Body = atob(this.draft_Body)
+          
+          console.log("DRAFT ID: ", this.draft_ID)
+          console.log(this.draft_message_ID)
+          console.log(this.draft_message_ThreadID)
+          console.log(this.draft_Snippet)
+          console.log(this.draft_From)
+          console.log(this.draft_To)
+          console.log(this.draft_Subject)
+          console.log(this.draft_Body, "\n")
         })
       })
     })
