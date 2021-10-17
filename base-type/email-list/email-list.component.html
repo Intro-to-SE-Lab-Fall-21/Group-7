@@ -6,10 +6,9 @@
     </div>
     
     <div class="nav-bar" *ngIf="user != null">
-        <button class="button-style-nav" (click)="show()">View Inbox</button>
+        <button class="button-style-nav" (click)="show()">Inbox</button>
         <br>
-        <button class="button-style-nav" (click)="open_compose()">Compose</button>
-
+        <button class="button-style-nav" (click)="draftList()">Drafts</button>
     </div>
 
 
@@ -39,7 +38,8 @@
                 <br>
                 <br>
             </div>
-            <div *ngIf="!search" class="Scroll">
+            
+            <div *ngIf="!search && !open_draft_inbox" class="Scroll">
                 <div class="inbox" *ngFor="let item of obj">
                     <button (click)="threadEmail(item.Thread_ID)" class="email-button">
      
@@ -60,6 +60,22 @@
             <div *ngIf="search" class="Scroll">
                 <div class="inbox" *ngFor="let item of search_obj">
                     <button (click)="threadEmail(item.Thread_ID)" class="email-button">
+     
+                        <div class="table">
+                            <div class="table-cell">
+                                {{item.From}}
+                            </div>
+                            <div class="table-cell2">
+                                {{item.Subject}} - {{item.Snippet}}
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="open_draft_inbox" class="Scroll">
+                <div class="inbox" *ngFor="let item of draft_obj">
+                    <button (click)="edit_draft(item.Draft_ID)" class="email-button">
      
                         <div class="table">
                             <div class="table-cell">
@@ -93,6 +109,28 @@
                 <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" cols="70"></textarea>
             </div>
             <span><button class="submit-email-button" type="submit">Send</button><span class="checkbox_input"><input id="check" class="check_margin" type="checkbox">Save as Draft</span></span>
+            
+        </form>
+    </div>
+</ng-template>
+
+<ng-template [ngIf]="draft_edit">
+    <div class="draft-form">
+        <button (click)="draft_close()">X</button>
+        <form #form4="ngForm" (submit)="onSubmit(form4)" autocomplete="off">
+            <div>
+                <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off">
+            </div>
+            <br>
+    
+            <div>
+                <input placeholder="Subject:" class="text-input-style" type="text" name="Subject" #Subject="ngModel" [(ngModel)]="gmailService.formData.Subject">
+            </div>
+            <br>
+            <div>
+                <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" cols="70"></textarea>
+            </div>
+            <span><button class="submit-email-button" type="submit">Send</button><span class="checkbox_input"><input id="check" class="check_margin" type="checkbox">Update Draft</span></span>
             
         </form>
     </div>

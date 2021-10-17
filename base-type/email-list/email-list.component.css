@@ -91,6 +91,15 @@
     box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
 }
 
+.draft-form{
+    position: absolute;
+    left: 72.5%;
+    width: 25%;
+    border-style: none;
+    padding: 2%;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
+}
+
 .checkbox_input{
     position: absolute;
     left: 66%;
@@ -191,6 +200,9 @@
 }
 .bold{
     font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .table {
     padding: 2px;
