@@ -215,6 +215,61 @@ export class GmailService {
     });
   }
 
+  public sendDraft(user: gapi.auth2.GoogleUser, formData: Gmail, draft_id: string){
+    const auth2 = gapi.auth2.getAuthInstance(); 
+    console.log("FormData: To", this.formData.To)
+
+    const option = new gapi.auth2.SigninOptionsBuilder();
+    option.setScope('email https://www.googleapis.com/auth/gmail.send');
+  
+    const googleUser = auth2.currentUser.get();
+    googleUser.grant(option).then(
+    function(success){
+      console.log(JSON.stringify({message: "success", value: success}));
+      
+      const name = user.getBasicProfile().getName();
+      const email = user.getBasicProfile().getEmail();
+      const To = formData.To
+      const Subject = formData.Subject
+      const Body = formData.Body
+      
+      
+      console.log("NAMWE: ", name)
+      
+      const message =
+      "From: " + name +  "<" + email + ">\r\n" +
+      "To: " + To + "\r\n" +
+      "Subject: " + Subject + "\r\n\r\n" +
+      Body;
+
+      const encodedMessage = btoa(unescape(encodeURIComponent(message)))
+
+      const reallyEncodedMessage = encodedMessage.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+
+      gapi.load('client:auth2', () => {
+        gapi.client.load('gmail', 'v1', () => {
+          console.log('Loaded Gmail');
+            console.log('pop')
+            gapi.client.gmail.users.drafts.send({
+              userId: 'me',
+              resource: {
+                id: draft_id,
+                message:{
+                  raw: reallyEncodedMessage
+                }
+              }
+            }).then(res => {
+              console.log("done!", res)
+            });
+          })
+      });
+    },
+    function(fail){
+      alert(JSON.stringify({message: "fail", value: fail}));
+    });
+  }
+  
+  
   public sendEmail(user: gapi.auth2.GoogleUser, formData: Gmail){
     const auth2 = gapi.auth2.getAuthInstance(); 
     console.log("FormData: To", this.formData.To)
