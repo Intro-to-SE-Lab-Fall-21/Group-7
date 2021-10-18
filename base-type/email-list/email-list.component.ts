@@ -94,6 +94,7 @@ export class EmailListComponent implements OnInit {
   draft_message_thread_id: string;
 
   update_draftID: string;
+  send_draftID: string;
 
   sender_email: string;
   reply_subject: string;
@@ -261,6 +262,7 @@ export class EmailListComponent implements OnInit {
         this.gmailService.formData.Subject = this.draft_obj[i].Subject;
         this.gmailService.formData.Body = this.draft_obj[i].Body;
         this.update_draftID = this.draft_obj[i].Draft_ID
+        this.send_draftID = this.draft_obj[i].Draft_ID
         break
       }
       else{
@@ -583,7 +585,7 @@ export class EmailListComponent implements OnInit {
     }
     else{
       console.log("SEND DRAFT")
-      //this.gmailService.sendEmail(this.user, form.value)
+      this.gmailService.sendDraft(this.user, form4.value, this.send_draftID)
     }
     //this.service.sendEmail(form.value)
     //this.gmailService.sendEmail(this.user, form.value)
