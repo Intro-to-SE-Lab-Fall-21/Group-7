@@ -73,6 +73,8 @@ export class EmailListComponent implements OnInit {
 
   draft_edit = false;
 
+  file_explorer = false;
+
   read_email_from = []
   read_email_subject = []
   read_email_body = []
@@ -112,6 +114,10 @@ export class EmailListComponent implements OnInit {
   draft_obj = [];
 
   key_list = ["from", "subject", "snippet"]
+  Mime_dict = {"txt": "plain/text", "pdf": "application/pdf", "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              "doc": "application/msword", "png": "image/png", "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+              "jpeg": "image/jpeg", "jpg": "image/jpeg", "csv": "text/csv", "xls": "application/vnd.ms-excel", "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
+  
   value_list = [];
   draft_value_list = [];
   separate_from = []
@@ -563,7 +569,14 @@ export class EmailListComponent implements OnInit {
       
     }
     else{
-      this.gmailService.sendEmail(this.user, form.value)
+      if(this.file_explorer){
+        this.gmailService.sendEmail_w_attachment(this.user, form.value, this.gmailService.attachment_string, this.gmailService.attachment_type, this.gmailService.attachment_name)
+        this.empty_browse()
+      }
+      else{
+        this.gmailService.sendEmail(this.user, form.value)
+      }
+      
     }
     //this.service.sendEmail(form.value)
     //this.gmailService.sendEmail(this.user, form.value)
@@ -597,6 +610,11 @@ export class EmailListComponent implements OnInit {
   send_close(){
     this.resetForm()
     this.compose_popup = false;
+  }
+
+  empty_browse(){
+    this.gmailService.attachment_name = '';
+    this.file_explorer = false;
   }
 
   text(){
@@ -708,6 +726,51 @@ export class EmailListComponent implements OnInit {
     this.reply_to_thread = false
     this.forward_thread = false
 
+  }
+
+  //Detect that a user select a file from File Explorer
+  onNativeInputFileSelect(event: any) {
+    console.log(event.target.value)
+    console.log(event.target.value.split("\\"))
+    this.gmailService.attachment_name = event.target.value.split("\\")[2]
+    this.gmailService.attachment_ext = this.gmailService.attachment_name.split(".")[1]
+    console.log(this.gmailService.attachment_name)
+
+    this.gmailService.attachment_type = this.Mime_dict[this.gmailService.attachment_ext]
+    //this.file_display_name = event.target.value.split('\\')
+    //this.file_display_name = this.file_display_name[this.file_display_name.length - 1]
+    //this.browse_disappear = true;
+
+    this.file_explorer = true
+
+    if (event.target.value) {
+      const file: File = event.target.files[0];
+      
+      this.changeFile(file).then(
+        (base64: any): any => {
+
+          //this.service.file_metadata_name = file.name
+          var s = String(base64).split(",")
+          console.log(s[1])
+          this.gmailService.attachment_string = s[1]
+
+          //this.service.file_to_upload.push(s[1])
+          //console.log(this.service.file_to_upload)
+          console.log(btoa(s[1]))
+ 
+        }
+      );
+    }
+  }
+
+  //Convert File Selected to Base64
+  changeFile(file: any) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
   }
 
   forward(){
