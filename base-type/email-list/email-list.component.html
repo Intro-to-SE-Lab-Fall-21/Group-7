@@ -117,7 +117,7 @@
 <ng-template [ngIf]="draft_edit">
     <div class="draft-form">
         <button (click)="draft_close()">X</button>
-        <form #form4="ngForm" (submit)="onSubmit(form4)" autocomplete="off">
+        <form #form4="ngForm" (submit)="onUpdate(form4)" autocomplete="off">
             <div>
                 <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off">
             </div>
@@ -130,7 +130,7 @@
             <div>
                 <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" cols="70"></textarea>
             </div>
-            <span><button class="submit-email-button" type="submit">Send</button><span class="checkbox_input"><input id="check" class="check_margin" type="checkbox">Update Draft</span></span>
+            <span><button class="submit-email-button" type="submit">Send</button><span class="checkbox_input"><input id="check_update" class="check_margin" type="checkbox">Update Draft</span></span>
             
         </form>
     </div>

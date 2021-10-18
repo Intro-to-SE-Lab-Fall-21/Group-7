@@ -93,6 +93,8 @@ export class EmailListComponent implements OnInit {
   draft_message_id: string;
   draft_message_thread_id: string;
 
+  update_draftID: string;
+
   sender_email: string;
   reply_subject: string;
   
@@ -258,6 +260,7 @@ export class EmailListComponent implements OnInit {
         this.gmailService.formData.To = this.draft_obj[i].To;
         this.gmailService.formData.Subject = this.draft_obj[i].Subject;
         this.gmailService.formData.Body = this.draft_obj[i].Body;
+        this.update_draftID = this.draft_obj[i].Draft_ID
         break
       }
       else{
@@ -552,7 +555,7 @@ export class EmailListComponent implements OnInit {
     console.log(form.value)
 
     let element = <HTMLInputElement> document.getElementById("check");
-    if(element.checked){
+    if(element.checked != null && element.checked){
       console.log("Call Create draft Function")
       this.gmailService.createDraft(this.user, form.value)
       
@@ -563,6 +566,30 @@ export class EmailListComponent implements OnInit {
     //this.service.sendEmail(form.value)
     //this.gmailService.sendEmail(this.user, form.value)
     this.resetForm(form)
+    element.checked = false;
+  }
+
+  onUpdate(form4 : NgForm){
+
+    console.log(form4.value)
+
+    let element = <HTMLInputElement> document.getElementById("check_update");
+    if(element.checked != null && element.checked){
+      console.log("Update Draft")
+      console.log(form4.value)
+      console.log("DRAFT ID TO SEND: ", this.update_draftID)
+      this.gmailService.updateDraft(this.user, form4.value, this.update_draftID)
+      
+    }
+    else{
+      console.log("SEND DRAFT")
+      //this.gmailService.sendEmail(this.user, form.value)
+    }
+    //this.service.sendEmail(form.value)
+    //this.gmailService.sendEmail(this.user, form.value)
+    this.resetForm()
+    element.checked = false;
+
   }
 
   send_close(){
