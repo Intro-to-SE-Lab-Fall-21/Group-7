@@ -16,4 +16,5 @@ install:
 
 script:
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
-  - app.component.spec.ts
+  - cd/app
+  - ./app.component.spec.ts
