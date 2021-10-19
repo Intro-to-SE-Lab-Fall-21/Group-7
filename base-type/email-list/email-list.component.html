@@ -12,7 +12,7 @@
     </div>
 
 
-    <div *ngIf="user != null && !read_popup">
+    <div class="list-form" *ngIf="user != null">
         <!--
         <div>
             <table>
@@ -50,7 +50,12 @@
                                 </div>
                             </div>
                             <div class="table-cell2">
-                                {{item.Subject}} - {{item.Snippet}}
+                                <div class="bold">
+                                    {{item.Subject}} 
+                                </div>
+                            </div>
+                            <div class="table-cell2">
+                                {{item.Snippet}}
                             </div>
                         </div>
                     </button>
@@ -63,10 +68,17 @@
      
                         <div class="table">
                             <div class="table-cell">
-                                {{item.From}}
+                                <div class="bold">
+                                    {{item.From}}
+                                </div>
                             </div>
                             <div class="table-cell2">
-                                {{item.Subject}} - {{item.Snippet}}
+                                <div class="bold">
+                                    {{item.Subject}} 
+                                </div>
+                            </div>
+                            <div class="table-cell2">
+                                {{item.Snippet}}
                             </div>
                         </div>
                     </button>
@@ -79,10 +91,17 @@
      
                         <div class="table">
                             <div class="table-cell">
-                                {{item.From}}
+                                <div class="bold">
+                                    {{item.From}}
+                                </div>
                             </div>
                             <div class="table-cell2">
-                                {{item.Subject}} - {{item.Snippet}}
+                                <div class="bold">
+                                    {{item.Subject}} 
+                                </div>
+                            </div>
+                            <div class="table-cell2">
+                                {{item.Snippet}}
                             </div>
                         </div>
                     </button>
@@ -142,11 +161,14 @@
     </div>
 </ng-template>
 
+<div *ngIf="read_popup" class="read-footer">
+    <button (click)="reply()">Reply</button>
+    <button (click)="forward()">Forward</button>
+    <a *ngIf="gmailService.dowload_attachment" href="{{gmailService.downloads_url}}" id="myLink"><button class="">Attachment</button></a>
+</div>
+
 <ng-template [ngIf]="read_popup">
-    <div *ngIf="!reply_to_thread && !forward_thread" class="read-scroll-form">
-        <button (click)="reply()">Reply</button>
-        <button (click)="forward()">Forward</button>
-        <a *ngIf="gmailService.dowload_attachment" href="{{gmailService.downloads_url}}" id="myLink"><button class="">Attachment</button></a>
+    <div class="read-scroll-form">
         
         <div *ngFor="let item of gmailService.obj3">
             <div class="read-form">
@@ -161,63 +183,44 @@
                 <div class="read_body" [innerHTML]="item.Body"></div>    
             </div>
         </div>
-    </div>
-
-    <div *ngIf="reply_to_thread || forward_thread" class="read-scroll-form2">
-        <a *ngIf="gmailService.dowload_attachment" href="{{gmailService.downloads_url}}" id="myLink"><button class="">Attachment</button></a>
-        <div *ngFor="let item of gmailService.obj3">
-            <div class="read-form">
-                <div class="email-info">
-                    {{item.From}} <br>
+        <div *ngIf="reply_to_thread" class="reply-form">
+            <form #form2="ngForm" (submit)="onReply(form2)" autocomplete="off">
+                <div>
+                    <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off" readonly>
                 </div>
                 <br>
-                <div class="email-info">
-                    {{item.Subject}}
+        
+                <div>
+                    <input placeholder="Subject:" class="text-input-style" type="text" name="Subject" #Subject="ngModel" [(ngModel)]="gmailService.formData.Subject" readonly>
                 </div>
                 <br>
-                <div class="read_body" [innerHTML]="item.Body"></div>    
-            </div>
+                <div>
+                    <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="7"></textarea>
+                </div>
+        
+                <button class="submit-email-button" type="submit">Send</button>
+                <button (click)="reply_close()">Discard</button>
+            </form>
         </div>
-    </div>
-
-    <div *ngIf="reply_to_thread" class="reply-form">
-        <button (click)="reply_close()">X</button>
-        <form #form2="ngForm" (submit)="onReply(form2)" autocomplete="off">
-            <div>
-                <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off" readonly>
-            </div>
-            <br>
-    
-            <div>
-                <input placeholder="Subject:" class="text-input-style" type="text" name="Subject" #Subject="ngModel" [(ngModel)]="gmailService.formData.Subject" readonly>
-            </div>
-            <br>
-            <div>
-                <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10"></textarea>
-            </div>
-    
-            <button class="submit-email-button" type="submit">Send</button>
-        </form>
-    </div>
-
-    <div *ngIf="forward_thread" class="reply-form">
-        <button (click)="reply_close()">X</button>
-        <form #form3="ngForm" (submit)="onForward(form3)" autocomplete="off">
-            <div>
-                <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off">
-            </div>
-            <br>
-    
-            <div>
-                <input placeholder="Subject:" class="text-input-style" type="text" name="Subject" #Subject="ngModel" [(ngModel)]="gmailService.formData.Subject" readonly>
-            </div>
-            <br>
-            <div>
-                <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" readonly></textarea>
-            </div>
-    
-            <button class="submit-email-button" type="submit">Send</button>
-        </form>
+        <div *ngIf="forward_thread" class="reply-form">
+            <form #form3="ngForm" (submit)="onForward(form3)" autocomplete="off">
+                <div>
+                    <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off">
+                </div>
+                <br>
+        
+                <div>
+                    <input placeholder="Subject:" class="text-input-style" type="text" name="Subject" #Subject="ngModel" [(ngModel)]="gmailService.formData.Subject" readonly>
+                </div>
+                <br>
+                <div>
+                    <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" readonly></textarea>
+                </div>
+        
+                <button class="submit-email-button" type="submit">Send</button>
+                <button (click)="reply_close()">Discard</button>
+            </form>
+        </div>
     </div>
     
 </ng-template>
