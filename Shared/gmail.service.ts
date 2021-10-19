@@ -53,6 +53,12 @@ export class GmailService {
   draft_Subject: string;
   draft_Body: string;
 
+  //Sending Attachments variables
+  attachment_string: string;
+  attachment_name: string;
+  attachment_type: string;
+  attachment_ext: string;
+
   dowload_attachment = false;
 
 
@@ -309,6 +315,84 @@ export class GmailService {
               userId: 'me',
               resource: {
                 raw: reallyEncodedMessage
+              }
+            }).then(res => {
+              console.log("done!", res)
+            });
+          })
+      });
+    },
+    function(fail){
+      alert(JSON.stringify({message: "fail", value: fail}));
+    });
+  }
+  
+
+  public sendEmail_w_attachment(user: gapi.auth2.GoogleUser, formData: Gmail, attachment_base64_data: string, attachment_type: string, attachment_name: string){
+    const auth2 = gapi.auth2.getAuthInstance(); 
+    console.log("FormData: To", this.formData.To)
+
+    const option = new gapi.auth2.SigninOptionsBuilder();
+    option.setScope('email https://www.googleapis.com/auth/gmail.send');
+  
+    const googleUser = auth2.currentUser.get();
+    googleUser.grant(option).then(
+    function(success){
+      console.log(JSON.stringify({message: "success", value: success}));
+      
+      const name = user.getBasicProfile().getName();
+      const email = user.getBasicProfile().getEmail();
+      const To = formData.To
+      const Subject = formData.Subject
+      const Body = formData.Body
+      
+      
+      console.log("NAMWE: ", name)
+
+      var attach = attachment_base64_data;
+      //attach = atob(attach)
+      console.log(attach)
+      
+      const message =
+        [
+          "MIME-Version: 1.0",
+          "From: " + name +  "<" + email + ">",
+          "To: " + To,
+          `Subject: ` + Subject,
+          "Content-Type: multipart/mixed; boundary=012boundary01",
+          '',
+          "--012boundary01",
+          "Content-Type: multipart/alternative; boundary=012boundary02",
+          '',
+          "--012boundary02",
+          "Content-type: text/plain; charset=UTF-8", 
+          "Content-Transfer-Encoding: quoted-printable",
+          '',
+          Body,
+          '',
+          "--012boundary02--",
+          "--012boundary01",
+          "Content-Type: " + attachment_type + "; " + "name=" + attachment_name,
+          'Content-Disposition: attachment; filename=' + attachment_name,
+          "Content-Transfer-Encoding: base64",
+          '',
+          attach,
+          "--012boundary01--",
+        ]
+
+
+      const encodedMessage = btoa(unescape(encodeURIComponent(message.join("\n"))))
+
+      const reallyEncodedMessage = encodedMessage.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+
+      gapi.load('client:auth2', () => {
+        gapi.client.load('gmail', 'v1', () => {
+          console.log('Loaded Gmail');
+            console.log('pop')
+            gapi.client.gmail.users.messages.send({
+              userId: 'me',
+              resource: {
+                raw: reallyEncodedMessage, 
               }
             }).then(res => {
               console.log("done!", res)
