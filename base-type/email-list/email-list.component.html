@@ -108,8 +108,14 @@
             <div>
                 <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" cols="70"></textarea>
             </div>
+            <div *ngIf="!file_explorer">
+                <input type="file" id="upload" class="browse" (change)="onNativeInputFileSelect($event)" #inputFile />
+            </div>
+            <div *ngIf="file_explorer"><button class="round-file_close" (click)='empty_browse()'>X</button>
+                {{gmailService.attachment_name}}
+            </div>
+            <br>
             <span><button class="submit-email-button" type="submit">Send</button><span class="checkbox_input"><input id="check" class="check_margin" type="checkbox">Save as Draft</span></span>
-            
         </form>
     </div>
 </ng-template>
