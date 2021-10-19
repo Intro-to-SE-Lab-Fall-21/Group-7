@@ -127,12 +127,6 @@ export class EmailListComponent implements OnInit {
 
   draft_list_obj = {}
 
-  //test_dict = {"id": ["1", "2", "3"]}
-
-  //mail_dict: {};
-
-  //test_list = [{"id": "1", "name": "h"}, {"id": "2", "name": "j"}, {"id": "3", "name": "k"}]
-
   test_list: string[];
 
   test: boolean = false;
@@ -148,18 +142,14 @@ export class EmailListComponent implements OnInit {
 
     this.signInService.observable().subscribe ( user => {
       this.user = user;
-      //this.messages = null;
-      //this.message = null;
       this.ref.detectChanges()
       console.log("USER is logged in")
       document.getElementById("show_inbox").click();
-      //this.prints();
-      //this.list();
     })
 
     
   }
-
+  //Is this being excuted???
   prints(){
     console.log("SHSHSH")
   }
@@ -167,7 +157,7 @@ export class EmailListComponent implements OnInit {
   show(){
     
     if(this.user != null && !this.stop_show){
-      console.log("yes")
+      //console.log("yes")
       this.list();
       this.compose_button_popup = true;
       this.stop_show = true;
@@ -193,31 +183,19 @@ export class EmailListComponent implements OnInit {
     this.read_popup = false;
     if(this.gmailService.obj3 != undefined){
       this.obj2.pop()
-      console.log(this.gmailService.obj3.length)
+      //console.log(this.gmailService.obj3.length)
       let empty_obj3 = this.gmailService.obj3.length
       for(let i = 0; i < empty_obj3; i++){
         this.gmailService.obj3.pop()
       }
-      console.log("POP")
+      //console.log("POP")
     }
     else{
-      console.log("no pop")
+      //console.log("no pop")
     }
 
     //this.gmailService.getThread(this.user)
     //console.log("Called")
-    
-    /*
-    if(!this.test){
-      this.test = true; 
-      this.list();
-    }
-    else{
-      //console.log("Else")
-      
-    }
-    */
-    
     
   }
 
@@ -225,16 +203,16 @@ export class EmailListComponent implements OnInit {
     this.read_popup = true;
 
     this.request_to_read = value
-    console.log("Request: ", this.request_to_read)
+    //console.log("Request: ", this.request_to_read)
     let request_index = this.read_email_id.indexOf(this.request_to_read)
 
-    console.log("Request From: ", this.read_email_from[request_index])
+    //console.log("Request From: ", this.read_email_from[request_index])
 
     let open = new Read_Email();
     open.From = this.read_email_from[request_index];
     open.Subject = this.read_email_subject[request_index];
     open.Body = this.read_email_body[request_index]
-    console.log("Open", open)
+    //console.log("Open", open)
     this.obj2.push(JSON.parse(JSON.stringify(open)))
     
     
@@ -244,12 +222,25 @@ export class EmailListComponent implements OnInit {
     this.read_popup = true;
     this.compose_popup = false;
     this.resetForm()
+    if(this.stop_show){
+      this.gmailService.obj3 = []
+      this.resetForm();
+      this.gmailService.dowload_attachment = false;
+      this.gmailService.attachment_id = '';
+      this.gmailService.message_id = '';
+      this.gmailService.file_name = '';
+      this.gmailService.type_name = '';
+      this.reply_to_thread = false;
+      this.forward_thread = false;
+      this.open_draft_inbox = false;
+      this.draft_edit = false;
+    }
     this.gmailService.getThread(this.user, value)
 
   }
 
 
-
+  //Is this being executed???
   list_button(value: any){
     console.log("HI")
     //this.compose_popup = true;
@@ -257,13 +248,13 @@ export class EmailListComponent implements OnInit {
   }
 
   edit_draft(value: any){
-    console.log(value)
+    //console.log(value)
     this.draft_edit = true;
     this.compose_popup = false;
 
     for(let i = 0; i < this.draft_obj.length; i++){
       if(this.draft_obj[i].Draft_ID == value){
-        console.log("Yes")
+        //console.log("Yes")
         this.gmailService.formData.To = this.draft_obj[i].To;
         this.gmailService.formData.Subject = this.draft_obj[i].Subject;
         this.gmailService.formData.Body = this.draft_obj[i].Body;
@@ -272,12 +263,9 @@ export class EmailListComponent implements OnInit {
         break
       }
       else{
-        console.log("NOPE")
+        //console.log("NOPE")
       }
     }
-
-
-    //this.gmailService.formData.To = this.draft_obj[5].To
 
   }
 
@@ -287,22 +275,22 @@ export class EmailListComponent implements OnInit {
   }
 
   draftList(){
-    console.log("Draft List called")
+    //console.log("Draft List called")
     this.open_draft_inbox = true;
     this.read_popup = false;
     if(this.user != null && !this.stop_show_drafts_inbox){
       this.stop_show_drafts_inbox = true;
       this.gmailService.draftList(this.user)
       .then(result => {
-        console.log("List: ", result.drafts)
+        //console.log("List: ", result.drafts)
         this.draft_id_list = result.drafts
-        console.log("New List: ", this.draft_id_list)
+        //console.log("New List: ", this.draft_id_list)
         this.draft_messages = result.drafts
         this.ref.detectChanges()
       })
       interval(750).subscribe(x => {
         if(x < this.draft_id_list.length){
-          console.log(this.draft_id_list[x].id)
+          //console.log(this.draft_id_list[x].id)
   
           this.draft_id_string = this.draft_id_list[x].id
           this.gmailService.getDraftMessage(this.user, this.draft_id_string)
@@ -317,7 +305,7 @@ export class EmailListComponent implements OnInit {
               this.draft_body = this.gmailService.draft_Body.replace(/\n/g, "<br />")
   
               this.separate_draft_from = this.gmailService.draft_From.split("<")
-              console.log(this.separate_draft_from)
+              //console.log(this.separate_draft_from)
   
               this.draft_from = this.separate_draft_from[0]
               this.draft_to = this.gmailService.draft_To
@@ -348,8 +336,7 @@ export class EmailListComponent implements OnInit {
               this.draft_obj.push(JSON.parse(JSON.stringify(drafts)))
   
               this.draft_value_list = null
-  
-              
+   
   
             }
             else{
@@ -362,27 +349,13 @@ export class EmailListComponent implements OnInit {
         //console.log(this.draft_obj)
         
       })
-      /*
-      .then(result => {
-        console.log("THE LIST LIST: ", result)
-        this.draft_list_obj = result
-        //console.log(this.draft_list_obj.drafts[0])
-      })
-      */
-      //console.log("GOT THE LIST: ", this.gmailService.draft_id)
-      //console.log(this.gmailService.draft_id.length)
-      /*
-      for(let i = 0; i < this.gmailService.draft_id.length; i++){
-        console.log(i, "getdrafts called")
-      }
-      */
     }
     else if(this.stop_show_drafts_inbox){
-      console.log("STOP")
+      //console.log("STOP")
     }
 
     else{
-      console.log("CHECK IT")
+      //console.log("CHECK IT")
     }
     
   }
@@ -426,7 +399,7 @@ export class EmailListComponent implements OnInit {
 
             //console.log("SUBJECT: ", this.subject)
             this.separate_from = this.gmailService.from.split("<")
-            console.log(this.separate_from)
+            //console.log(this.separate_from)
   
             this.from = this.separate_from[0]
   
@@ -444,16 +417,15 @@ export class EmailListComponent implements OnInit {
             //console.log("AFTER PUSH: ", this.value_list)
 
             if(this.read_email_id.includes(this.id_string)){
-              console.log("yes includes")
+              //console.log("yes includes")
             }
             else{
-              console.log("Nope it dont")
+              //console.log("Nope it dont")
               this.read_email_id.push(this.id_string)
               this.read_email_from.push(this.from)
               this.read_email_subject.push(this.subject)
               this.read_email_body.push(this.body)
             }
-            
 
             let person = new Person();
             person.From = this.value_list[0];
@@ -461,38 +433,15 @@ export class EmailListComponent implements OnInit {
             person.Snippet = this.value_list[2];
             person.ID = this.value_list[3];
             person.Thread_ID = this.value_list[4]
-            console.log("Person: ", person);
-            console.log(this.value_list[1])
+            //console.log("Person: ", person);
+            //console.log(this.value_list[1])
             //this.obj = JSON.parse(JSON.stringify(person))
             this.obj.push(JSON.parse(JSON.stringify(person)))
             //console.log(this.obj)
             this.value_list = null
             //console.log(this.value_list)
 
-            /*
-            
-            for(let i = 0; i < this.key_list.length; i++){
-              /*
-              this.test_list.push({
-                value: this.value_list[i]
-              });
-              */
-              /*
-              let person = new Person();
-              person.firstName = this.value_list[i];
-              person.lastName = this.value_list[i+1];
-              person.middleName = this.value_list[i+2]
-              console.log(person);
-              
-
-              //this.test_list.push(stringify(person))
-            }
-
-            */
-
-            console.log("IDS: ", this.read_email_id)
-            
-            
+            //console.log("IDS: ", this.read_email_id)
             
             
           }
@@ -506,25 +455,24 @@ export class EmailListComponent implements OnInit {
         })
         
       }
-      /*
-      else{
-        console.log("DONE!!!")
-        this.flag = true
-      }
-      */
     })
 
   }
 
   open_compose(){
-    console.log("clicked")
+    //console.log("clicked")
+
+    if(this.read_popup){
+      this.read_popup = false;
+      this.resetForm()
+    }
 
     if(this.user != null){
       this.resetForm()
-      console.log("yes")
+      //console.log("yes")
       this.compose_popup = true;
       this.draft_edit = false;
-      console.log(this.compose_popup)
+      //console.log(this.compose_popup)
     }
     else{
       console.log("Yes")
@@ -560,11 +508,11 @@ export class EmailListComponent implements OnInit {
   }
 
   onSubmit(form : NgForm){
-    console.log(form.value)
+    //console.log(form.value)
 
     let element = <HTMLInputElement> document.getElementById("check");
     if(element.checked != null && element.checked){
-      console.log("Call Create draft Function")
+      //console.log("Call Create draft Function")
       this.gmailService.createDraft(this.user, form.value)
       
     }
@@ -578,30 +526,26 @@ export class EmailListComponent implements OnInit {
       }
       
     }
-    //this.service.sendEmail(form.value)
-    //this.gmailService.sendEmail(this.user, form.value)
     this.resetForm(form)
     element.checked = false;
   }
 
   onUpdate(form4 : NgForm){
 
-    console.log(form4.value)
+    //console.log(form4.value)
 
     let element = <HTMLInputElement> document.getElementById("check_update");
     if(element.checked != null && element.checked){
-      console.log("Update Draft")
-      console.log(form4.value)
-      console.log("DRAFT ID TO SEND: ", this.update_draftID)
+      //console.log("Update Draft")
+      //console.log(form4.value)
+      //console.log("DRAFT ID TO SEND: ", this.update_draftID)
       this.gmailService.updateDraft(this.user, form4.value, this.update_draftID)
       
     }
     else{
-      console.log("SEND DRAFT")
+      //console.log("SEND DRAFT")
       this.gmailService.sendDraft(this.user, form4.value, this.send_draftID)
     }
-    //this.service.sendEmail(form.value)
-    //this.gmailService.sendEmail(this.user, form.value)
     this.resetForm()
     element.checked = false;
 
@@ -628,9 +572,6 @@ export class EmailListComponent implements OnInit {
 
     if((<HTMLInputElement>document.getElementById("Search")).value.length >= 3 && this.search_obj.length == 0){
       var predictive_word = (<HTMLInputElement>document.getElementById("Search")).value
-      //this.service.predict_search.push(predictive_word)
-      //console.log(this.service.predict_search)
-      //this.service.Predictive_Search()
 
       let search_param = '';
       this.search_obj = [];
@@ -638,7 +579,7 @@ export class EmailListComponent implements OnInit {
 
       for(let i = 0; i < this.obj.length; i++){
         if(this.obj[i].From.includes(search_param)){
-          console.log(this.obj[i])
+          //console.log(this.obj[i])
           this.search_obj.push(this.obj[i])
         }
       }
@@ -651,7 +592,7 @@ export class EmailListComponent implements OnInit {
   }
 
   onReply(form2 : NgForm){
-    console.log(form2.value)
+    //console.log(form2.value)
     this.gmailService.replyEmail(this.user, form2.value, this.gmailService.current_message_ID, this.gmailService.current_Reference_ID, this.gmailService.reply_thread_ID)
     this.reply_to_thread = false
     this.resetForm()
@@ -660,7 +601,7 @@ export class EmailListComponent implements OnInit {
       let empty_obj3 = this.gmailService.obj3.length
       for(let i = 0; i < empty_obj3; i++){
         this.gmailService.obj3.pop()
-        console.log("OBSERVE onreply: ", this.gmailService.obj3)
+        //console.log("OBSERVE onreply: ", this.gmailService.obj3)
 
       }
       this.threadEmail(this.gmailService.reply_thread_ID)
@@ -676,51 +617,50 @@ export class EmailListComponent implements OnInit {
   }
 
   reply(){
-    console.log("REPLY")
-    console.log(this.gmailService.obj3)
+    //log("REPLY")
+    //console.log(this.gmailService.obj3)
+
+    if(this.forward_thread){
+      this.forward_thread = false;
+      this.resetForm()
+    }
 
     for(let i = 0; i < this.gmailService.obj3.length; i++){
 
       let email_reply: string = this.gmailService.obj3[i].From
       let subject_reply: string = this.gmailService.obj3[i].Subject
-      console.log("SUBJECT THREADA REPLY", subject_reply)
+      //console.log("SUBJECT THREADA REPLY", subject_reply)
 
       this.reply_subject = subject_reply;
 
       let email_length = email_reply.split(" ")
       let index_length = email_length.length
-      console.log(index_length)
-      console.log("EMAIL HER: ", email_length)
-      console.log("GMAIL ACCOUNT: ", this.user.getBasicProfile().getEmail())
+      //console.log(index_length)
+      //console.log("EMAIL HER: ", email_length)
+      //console.log("GMAIL ACCOUNT: ", this.user.getBasicProfile().getEmail())
       if(email_length[index_length - 1] != "<" + this.user.getBasicProfile().getEmail() + ">"){
         this.reply_to_thread = true
         
-        console.log(email_length[index_length - 1])
+        //console.log(email_length[index_length - 1])
         let reply_to_sender: string = email_length[index_length - 1].replace("<", "")
         reply_to_sender = reply_to_sender.replace(">", "")
-        console.log(reply_to_sender)
+        //console.log(reply_to_sender)
         this.sender_email = reply_to_sender
         break
         
       }
-      console.log("PASSS")
-      
-      
-      //email_address.replace("<", "")
-      //email_address.replace(">", "")
-      //this.reply_list.push(email_address)
-      //console.log(this.reply_list[0])
+      //console.log("PASSS")
 
     }
 
-    console.log("STOPED")
+    //console.log("STOPED")
     this.gmailService.formData.To = this.sender_email
     this.gmailService.formData.Subject = this.reply_subject
     
   }
 
   onForward(form3 : NgForm){
-    console.log("FORAWRD REAPONSE: ", form3.value)
+    //console.log("FORAWRD REAPONSE: ", form3.value)
     this.gmailService.sendEmail(this.user, form3.value)
     this.resetForm()
     this.reply_to_thread = false
@@ -730,17 +670,13 @@ export class EmailListComponent implements OnInit {
 
   //Detect that a user select a file from File Explorer
   onNativeInputFileSelect(event: any) {
-    console.log(event.target.value)
-    console.log(event.target.value.split("\\"))
+    //console.log(event.target.value)
+    //console.log(event.target.value.split("\\"))
     this.gmailService.attachment_name = event.target.value.split("\\")[2]
     this.gmailService.attachment_ext = this.gmailService.attachment_name.split(".")[1]
-    console.log(this.gmailService.attachment_name)
+    //console.log(this.gmailService.attachment_name)
 
     this.gmailService.attachment_type = this.Mime_dict[this.gmailService.attachment_ext]
-    //this.file_display_name = event.target.value.split('\\')
-    //this.file_display_name = this.file_display_name[this.file_display_name.length - 1]
-    //this.browse_disappear = true;
-
     this.file_explorer = true
 
     if (event.target.value) {
@@ -748,15 +684,10 @@ export class EmailListComponent implements OnInit {
       
       this.changeFile(file).then(
         (base64: any): any => {
-
-          //this.service.file_metadata_name = file.name
           var s = String(base64).split(",")
-          console.log(s[1])
+          //console.log(s[1])
           this.gmailService.attachment_string = s[1]
-
-          //this.service.file_to_upload.push(s[1])
-          //console.log(this.service.file_to_upload)
-          console.log(btoa(s[1]))
+          //console.log(btoa(s[1]))
  
         }
       );
@@ -774,12 +705,16 @@ export class EmailListComponent implements OnInit {
   }
 
   forward(){
-    console.log("Forward")
+    //console.log("Forward")
+    if(this.reply_to_thread){
+      this.reply_to_thread = false;
+      this.resetForm();
+    }
     this.forward_thread = true;
-    console.log(this.gmailService.obj3)
+    //console.log(this.gmailService.obj3)
 
     let forward_subject = "FWD: " + this.gmailService.obj3[0].Subject
-    console.log(forward_subject)
+    //console.log(forward_subject)
 
     let compose_forward_body = '';
 
@@ -788,66 +723,11 @@ export class EmailListComponent implements OnInit {
 
     }
 
-    console.log(compose_forward_body)
+    //console.log(compose_forward_body)
 
     this.gmailService.formData.Subject = forward_subject;
     this.gmailService.formData.Body = compose_forward_body;
 
-    /*
-
-    for(let i = 0; i < this.gmailService.obj3.length; i++){
-
-      let email_reply: string = this.gmailService.obj3[i].From
-      let subject_reply: string = this.gmailService.obj3[i].Subject
-      console.log("SUBJECT THREADA REPLY", subject_reply)
-
-      this.reply_subject = subject_reply;
-
-      let email_length = email_reply.split(" ")
-      let index_length = email_length.length
-      console.log(index_length)
-      console.log("EMAIL HERE: ", email_length)
-      console.log("GMAIL ACCOUNT: ", this.user.getBasicProfile().getEmail())
-      if(email_length[index_length - 1] != "<" + this.user.getBasicProfile().getEmail() + ">"){
-        this.reply_to_thread = true
-        
-        console.log(email_length[index_length - 1])
-        let reply_to_sender: string = email_length[index_length - 1].replace("<", "")
-        reply_to_sender = reply_to_sender.replace(">", "")
-        console.log(reply_to_sender)
-        this.sender_email = reply_to_sender
-        break
-        
-      }
-      console.log("PASSS")
-      
-      
-      //email_address.replace("<", "")
-      //email_address.replace(">", "")
-      //this.reply_list.push(email_address)
-      //console.log(this.reply_list[0])
-
-    }
-
-    console.log("STOPED")
-    this.gmailService.formData.To = this.sender_email
-    this.gmailService.formData.Subject = this.reply_subject
-
-    */
-
   }
-
-  /*
-
-  getMessage(id: string){
-    console.log(id)
-    this.gmailService.getMessage(this.user, id)
-    .then(result =>{
-      this.message = result
-      this.ref.detectChanges()
-    })
-  }
-  */
-
 
 }
