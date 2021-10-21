@@ -33,14 +33,14 @@
                     <button class="compose-style" (click)="open_compose()">Compose</button>
                 </div>
                 <form #form4="ngForm" (submit)="onSearch(form4)" autocomplete="off">
-                    <input placeholder="Search" (keyup)='text()' class="search-input-style" type="text" id="Search" name="Search" #Search="ngModel" [(ngModel)]="gmailService.formData.Search">
+                    <input placeholder="Search" (keyup)='text_search()' class="search-input-style" type="text" id="Search" name="Search" #Search="ngModel" [(ngModel)]="gmailService.formData.Search">
                 </form>
                 <br>
                 <br>
             </div>
             
             <div *ngIf="!search && !open_draft_inbox" class="Scroll">
-                <div class="inbox" *ngFor="let item of obj">
+                <div class="inbox" *ngFor="let item of list_obj">
                     <button (click)="threadEmail(item.Thread_ID)" class="email-button">
      
                         <div class="table">
@@ -170,7 +170,7 @@
 <ng-template [ngIf]="read_popup">
     <div class="read-scroll-form">
         
-        <div *ngFor="let item of gmailService.obj3">
+        <div *ngFor="let item of gmailService.thread_obj">
             <div class="read-form">
                 <div class="email-info">
                     {{item.From}} <br>
