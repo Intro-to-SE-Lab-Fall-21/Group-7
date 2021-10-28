@@ -88,10 +88,45 @@
     font-size: larger;
 }
 
+.reply-button{
+    background-color: #000080;
+    color: white;
+    border: #000080;
+    border-radius: 2px;
+    width: auto;
+    height: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+}
+
+.forward-button{
+    background-color: #000080;
+    color: white;
+    border: #000080;
+    border-radius: 2px;
+    width: auto;
+    height: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+    margin-left: 1%;
+}
+
+.attachment-button{
+    background-color: #000080;
+    color: white;
+    border: #000080;
+    border-radius: 2px;
+    width: auto;
+    height: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+    margin-left: 1%;
+}
+
 .compose_div{
     position: absolute;
     left: 12%;
-    width: 7%;
+    width: auto;
     margin-top: .4%;
 }
 
@@ -259,10 +294,88 @@
     color: white;
     border: #000080;
     border-radius: 2px;
-    width: 12%;
+    width: auto;
     height: 30px;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: larger;
+}
+
+.fa-paperclip{
+    color: #000080;
+    font-size: x-large;
+    transform: rotate(45deg);
+    cursor: pointer;
+}
+
+.close_button{
+    color: white;
+}
+
+.attachment_close{
+    color: #000080;
+}
+
+.file_close{
+    background-color: white;
+    border-style: none;
+}
+
+.close_button_compose{
+    background-color: #000080;
+    border-style: none;
+    position: relative;
+    left: 95%;
+
+}
+
+.paper-clip{
+    margin-left: 3%;
+    width: auto;
+}
+
+.discard{
+    background-color: #000080;
+    color: white;
+    border: #000080;
+    border-radius: 2px;
+    width: auto;
+    height: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+    margin-left: 1%;
+}
+
+.paper-clip:hover{
+    background-color: rgb(228, 228, 228);
+    border-radius: 50px;
+    height: auto;
+}
+
+.fa-trash{
+    color: red;
+}
+
+.delete-email{
+    position: absolute;
+    left: 93%;
+    background-color: transparent;
+    border-style: solid;
+    border-color: transparent;
+    height: auto;
+}
+
+.delete-email:hover{
+    background-color: rgb(228, 228, 228);
+    border-radius: 50px;
+    height: auto;
+}
+
+.delete-email{
+    height: 30px;
+}
+
+input[type="file"] {
+    display: none;
 }
 
 .email-info{
@@ -275,5 +388,5 @@
     position: absolute;
     left: 58%;
     margin-top: -3%;
-    padding-bottom: 2.5%;
+    width: 30%;
 }

@@ -48,6 +48,7 @@ class Read_Email{
 })
 
 export class EmailListComponent implements OnInit {
+  
   //User auth token
   user: gapi.auth2.GoogleUser;
 
@@ -231,6 +232,16 @@ export class EmailListComponent implements OnInit {
       this.draft_edit = false;
     }
     this.gmailService.getThread(this.user, value);
+  }
+
+  deleteEmail(value: any){
+    console.log(value)
+    let delete_email = confirm('Are you sure?');
+    console.log(delete_email)
+
+    if(delete_email){
+      console.log("API CALL")
+    }
   }
 
   //Edit drafts
