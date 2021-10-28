@@ -5,7 +5,7 @@
     color: white;
     border: #000080;
     border-radius: 2px;
-    width: 8%;
+    width: auto;
     height: 30px;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: larger;
@@ -41,8 +41,10 @@
     color: white;
     border: #000080;
     border-radius: 2px;
-    width: 8%;
+    width: auto;
     height: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
     
 }
 
@@ -64,3 +66,191 @@
     width: 50%;
 
 }
+
+.card-font{
+    font-size: 3em;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-variant: small-caps;
+}
+
+.card1{
+    width: 20%;
+    box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+    position: absolute;
+    left: 40%;
+    margin-top: 10%;
+    background-color: white;
+}
+
+
+.card2{
+    width: 20%;
+    position: absolute;
+    left: 40%;
+    margin-top: 25%;
+    background-color: white;
+    box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+
+}
+
+.card3{
+    width: 20%;
+    position: absolute;
+    left: 65%;
+    margin-top: 10%;
+    background-color: white;
+    box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+
+}
+
+.card4{
+    width: 20%;
+    position: absolute;
+    left: 65%;
+    margin-top: 25%;
+    background-color: white;
+    box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+
+}
+
+.card5{
+    width: 45%;
+    position: absolute;
+    left: 40%;
+    margin-top: 40%;
+    background-color: white;
+    box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+
+}
+
+.message{
+    font-size: 1.2em;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-variant: small-caps;
+    margin-left: 2%;
+}
+
+.picture{
+    position: absolute;
+    margin-top: 16%;
+    box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+    margin-left: 2%;
+    width: 35%;
+    box-shadow: 0 3.5px 5.5px rgba(0, 0, 0, 0.80);
+    
+}
+
+.m-picture{
+    width: 100%;
+    height: auto;
+}
+
+@media only screen and (max-width: 1080px){
+
+    .signin-button{
+        position: absolute;
+        left: 68%;
+        background-color: #000080;
+        color: white;
+        border: #000080;
+        border-radius: 2px;
+        width: auto;
+        height: 30px;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+    }
+
+    .signin-button:hover{
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.60);
+    }
+
+    .welcome{
+        position: absolute;
+        left: 1%;
+        font-family: sans-serif;
+        font-style: italic;
+        font-size: larger;
+    }
+
+    .message{
+        font-size: 1em;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-variant: small-caps;
+        margin-left: 2%;
+    }
+
+    .welcome-message{
+        position: absolute;
+        left: 1%;
+        margin-top: 8%;
+        font-size: 3.5em;
+        font-weight: bolder;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-variant: small-caps;
+    }
+
+    .card-font{
+        font-size: 2em;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-variant: small-caps;
+    }
+
+    .card1{
+        width: 95%;
+        position: relative;
+        left: 1.8%;
+        margin-top: 2%;
+        background-color: white;
+        box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+    }
+
+    .card2{
+        width: 95%;
+        position: relative;
+        left: 1.8%;
+        margin-top: 2%;
+        background-color: white;
+        box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+    }
+    .card3{
+        width: 95%;
+        position: relative;
+        left: 1.8%;
+        margin-top: 2%;
+        background-color: white;
+        box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+    
+    }
+
+    .card4{
+        width: 95%;
+        position: relative;
+        left: 1.8%;
+        margin-top: 2%;
+        background-color: white;
+        box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+    
+    }
+    
+    .card5{
+        width: 95%;
+        position: relative;
+        left: 1.8%;
+        margin-top: 1%;
+        background-color: white;
+        box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+    
+    }
+
+    .picture{
+        position: relative;
+        margin-top: 28%;
+        box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+        left: 0%;
+        width: 95%;
+        box-shadow: 0 3.5px 5.5px rgba(0, 0, 0, 0.80);
+        
+    }
+
+}
+
