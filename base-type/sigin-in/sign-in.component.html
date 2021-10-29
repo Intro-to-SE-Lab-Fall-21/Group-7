@@ -1,6 +1,6 @@
 <div *ngIf="user == null">
     <div>
-        <button class="signin-button" (click)="signIn()">Sign-In</button>
+        <button class="signin-button" (click)="signIn()">Sign-In <i class="fa fa-sign-in"></i></button>
     </div>
 
 </div>
@@ -8,25 +8,66 @@
 <div *ngIf="user != null">
     <div class="welcome">Welcome, {{user.getBasicProfile().getName()}}</div>
     <div *ngIf="user != null">
-        <button class="signout-button" (click)="signOut()" *ngIf="user != null">Sign-Out</button>
+        <button class="signout-button" (click)="signOut()" *ngIf="user != null">Sign-Out <i class="fa fa-sign-out"></i></button>
     </div>
 </div>
 
 <div *ngIf="user == null" class="welcome-message">
-    <span>
+    <div>
         G7 Email
-    </span>
+    </div>
 </div>
 
-<div *ngIf="user == null" class="send-receive-view">
-    <span>
-        Send.
-    </span>
-    <span>
-        View.
-    </span>
-    <span>
-        Receive.
-    </span>
+<div *ngIf="user == null">
+
+    <div class="picture">
+        <img class="m-picture" src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8b2ZmaWNlJTIwd29ya2VyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80">
+    </div>
+
+    <div class="card1">
+        <div>
+            <label class="d-flex justify-content-center card-font">Send</label>
+            <div class="d-flex justify-content-center">
+                <p class="message">Send emails to who ever you want.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card2">
+        <div>
+            <label class="d-flex justify-content-center card-font">View</label>
+            <div class="d-flex justify-content-center">
+                <p class="message">View your most important emails.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card3">
+        <div>
+            <label class="d-flex justify-content-center card-font">Receive</label>
+            <div class="d-flex justify-content-center">
+                <p class="message">Receive your messages seamlessly</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card4">
+        <div>
+            <label class="d-flex justify-content-center card-font">G7-Email</label>
+            <div class="d-flex justify-content-center">
+                <p class="message">The most powerful emailing client</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card5">
+        <div>
+            <div class="d-flex justify-content-center">
+                <p class="message">Power by Google's Gmail API and Amazon Web Services</p>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 
