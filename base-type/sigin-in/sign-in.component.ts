@@ -30,6 +30,8 @@ export class SignInComponent implements OnInit {
 
   signOut(){
     this.signInService.signOut()
+    window.location.reload()
+
   }
 
   open_compose(){

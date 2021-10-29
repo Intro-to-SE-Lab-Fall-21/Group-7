@@ -13,24 +13,11 @@
 
 
     <div class="list-form" *ngIf="user != null">
-        <!--
-        <div>
-            <table>
-                <tr *ngFor="let message of messages">
-                    <td>{{message.id}}</td>
-                    <td>
-                        <button (click)="getMessage(message.id)">GET MAIL</button>
-                    </td>
-                </tr>
-            </table>
-          <div>Body{{message}}</div><br>
-        </div>
-        -->
         <div>
             
             <div>
                 <div class="compose_div" *ngIf="user != null">
-                    <button class="compose-style" (click)="open_compose()">Compose</button>
+                    <button class="compose-style" (click)="open_compose()">Compose <i class="fa fa-envelope-open"></i></button>
                 </div>
                 <form #form4="ngForm" (submit)="onSearch(form4)" autocomplete="off">
                     <input placeholder="Search" (keyup)='text_search()' class="search-input-style" type="text" id="Search" name="Search" #Search="ngModel" [(ngModel)]="gmailService.formData.Search">
@@ -45,9 +32,9 @@
      
                         <div class="table">
                             <div class="table-cell">
-                                <div class="bold">
+                                <span class="bold">
                                     {{item.From}}
-                                </div>
+                                </span>
                             </div>
                             <div class="table-cell2">
                                 <div class="bold">
@@ -59,6 +46,7 @@
                             </div>
                         </div>
                     </button>
+                    <button class="delete-email" (click)="deleteEmail(item.Thread_ID)"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
 
@@ -113,7 +101,7 @@
 
 <ng-template [ngIf]="compose_popup">
     <div class="send-form">
-        <button (click)="send_close()">X</button>
+        <button class="close_button_compose" (click)="send_close()"><i class="close_button fa fa-close"></i></button>
         <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
             <div>
                 <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off">
@@ -127,21 +115,24 @@
             <div>
                 <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" cols="70"></textarea>
             </div>
-            <div *ngIf="!file_explorer">
-                <input type="file" id="upload" class="browse" (change)="onNativeInputFileSelect($event)" #inputFile />
-            </div>
-            <div *ngIf="file_explorer"><button class="round-file_close" (click)='empty_browse()'>X</button>
-                {{gmailService.attachment_name}}
-            </div>
             <br>
-            <span><button class="submit-email-button" type="submit">Send</button><span class="checkbox_input"><input id="check" class="check_margin" type="checkbox">Save as Draft</span></span>
+            <span>
+                <button class="submit-email-button" type="submit">Send <i class="fa fa-paper-plane"></i></button>
+                <label class="paper-clip" *ngIf="!file_explorer">
+                    <input class="fa fa-paperclip" type="file" id="upload" class="browse" (change)="onNativeInputFileSelect($event)" #inputFile /><i class="fa fa-paperclip"></i>
+                </label>
+                <label *ngIf="file_explorer"><button class="file_close" (click)='empty_browse()'><i class="attachment_close fa fa-close"></i></button>
+                    {{gmailService.attachment_name}}
+                </label>
+                <span class="checkbox_input"><input id="check" class="check_margin" type="checkbox">Save as Draft</span>
+            </span>
         </form>
     </div>
 </ng-template>
 
 <ng-template [ngIf]="draft_edit">
     <div class="draft-form">
-        <button (click)="draft_close()">X</button>
+        <button class="close_button_compose" (click)="draft_close()"><i class="close_button fa fa-close"></i></button>
         <form #form4="ngForm" (submit)="onUpdate(form4)" autocomplete="off">
             <div>
                 <input placeholder="To:" class="text-input-style" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off">
@@ -162,9 +153,9 @@
 </ng-template>
 
 <div *ngIf="read_popup" class="read-footer">
-    <button (click)="reply()">Reply</button>
-    <button (click)="forward()">Forward</button>
-    <a *ngIf="gmailService.dowload_attachment" href="{{gmailService.downloads_url}}" id="myLink"><button class="">Attachment</button></a>
+    <button class="reply-button" (click)="reply()">Reply <i class="fa fa-reply"></i></button>
+    <button class="forward-button" (click)="forward()">Forward <i class="fa fa-arrow-right"></i></button>
+    <a *ngIf="gmailService.dowload_attachment" href="{{gmailService.downloads_url}}" id="myLink"><button class="attachment-button">Attachment <i class="fa fa-file"></i></button></a>
 </div>
 
 <ng-template [ngIf]="read_popup">
@@ -198,8 +189,8 @@
                     <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="7"></textarea>
                 </div>
         
-                <button class="submit-email-button" type="submit">Send</button>
-                <button (click)="reply_close()">Discard</button>
+                <button class="submit-email-button" type="submit">Send <i class="fa fa-paper-plane"></i></button>
+                <button class="discard" (click)="reply_close()">Discard</button>
             </form>
         </div>
         <div *ngIf="forward_thread" class="reply-form">
@@ -217,8 +208,8 @@
                     <textarea class="body-input-style" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="10" readonly></textarea>
                 </div>
         
-                <button class="submit-email-button" type="submit">Send</button>
-                <button (click)="reply_close()">Discard</button>
+                <button class="submit-email-button" type="submit">Send <i class="fa fa-paper-plane"></i></button>
+                <button class="discard" (click)="reply_close()">Discard</button>
             </form>
         </div>
     </div>
