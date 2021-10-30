@@ -16,6 +16,18 @@ class Person {
   }
 }
 
+class Trash{
+  Trash_ID: string;
+  Trash_ThreadID: string;
+  Snippet: string;
+  From: string;
+  Subject: string;
+  Body: string;
+  getJson() {
+    return JSON.stringify(this);
+}
+}
+
 //User drafts
 class Drafts {
   Draft_ID: string;
@@ -55,6 +67,7 @@ export class EmailListComponent implements OnInit {
   //Used to list email in inbox
   messages: gapi.client.gmail.Message[];
   draft_messages: gapi.client.gmail.Draft[];
+  trash_messages: gapi.client.gmail.Message[];
 
   //Compose an email
   message: string;
@@ -148,6 +161,23 @@ export class EmailListComponent implements OnInit {
   id_string: string = '';
   draft_id_string: string = '';
 
+  side_nav = false;
+
+  open_trash_inbox = false;
+
+  trash_message_id = [];
+  trash_id_string: string;
+  trash_subject: string;
+  trash_body: string;
+  separate_trash_from = [];
+  trash_from: string;
+  trash_to: string;
+  trash_snippet: string;
+  trash_id: string;
+  trash_threadID: string;
+  trash_value_list = [];
+  trash_obj = []
+
   constructor(private signInService: GoogleSignService, private gmailService: GmailService, private ref : ChangeDetectorRef) { }
   //Used for logging in
   ngOnInit(): void {
@@ -160,6 +190,17 @@ export class EmailListComponent implements OnInit {
       document.getElementById("show_inbox").click();
     })
   }
+
+  side_bar_open(){
+    this.side_nav = true;
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  side_bar_close(){
+    this.side_nav = false;
+    document.getElementById("mySidenav").style.width = "0";
+  }
+
   //Automatically make an api call to list email in inbox
   show(){
     
@@ -180,6 +221,7 @@ export class EmailListComponent implements OnInit {
       this.forward_thread = false;
       this.open_draft_inbox = false;
       this.draft_edit = false;
+      this.open_trash_inbox = false;
     }
     else{
       alert("Please Sign-In")
@@ -234,13 +276,25 @@ export class EmailListComponent implements OnInit {
     this.gmailService.getThread(this.user, value);
   }
 
+  moveTrash(value: any){
+    console.log(value)
+    let move_email = confirm('Are you sure you want to move this item to the trash?');
+    console.log(move_email)
+
+    if(move_email){
+      console.log("API CALL")
+      this.gmailService.move_toTrash(this.user, value)
+    }
+  }
+
   deleteEmail(value: any){
     console.log(value)
-    let delete_email = confirm('Are you sure?');
+    let delete_email = confirm('Are you sure you want to delete this item?');
     console.log(delete_email)
 
     if(delete_email){
       console.log("API CALL")
+      this.gmailService.deleteEmail(this.user, value)
     }
   }
 
@@ -272,11 +326,78 @@ export class EmailListComponent implements OnInit {
     this.resetForm();
   }
 
+  trashList(){
+    this.open_trash_inbox = true;
+    this.read_popup = false;
+    this.open_draft_inbox = false;
+
+    if(this.user != null && !this.stop_show_drafts_inbox){
+      console.log("CLICKED")
+      this.gmailService.trashList(this.user)
+      .then(result => {
+        this.trash_message_id = result.messages
+        console.log(this.trash_message_id)
+        this.ref.detectChanges();
+      })
+      interval(750).subscribe(x => {
+        if(x < this.trash_message_id.length){
+          this.trash_id_string = this.trash_message_id[x].id
+          this.gmailService.getTrashMessage(this.user, this.trash_id_string)
+          .then( result => {
+
+            if(this.gmailService.trash_Subject == '' || this.gmailService.trash_From == '' || this.gmailService.trash_Snippet == ''){
+              //
+            }
+
+            else if(this.gmailService.trash_Subject && this.gmailService.trash_From && this.gmailService.trash_Snippet){
+              this.trash_subject = this.gmailService.trash_Subject;
+
+              this.trash_body = this.gmailService.trash_Body.replace(/\n/g, "<br />");
+
+              this.separate_trash_from = this.gmailService.trash_From.split("<")
+
+              this.trash_from = this.separate_trash_from[0];
+              this.trash_to = this.gmailService.trash_To;
+              this.trash_snippet = this.gmailService.trash_Snippet;
+              this.trash_id = this.gmailService.trash_ID;
+              this.trash_threadID = this.gmailService.trash_ThreadID;
+
+              this.trash_value_list = [];
+              this.trash_value_list.push(this.trash_id);
+              this.trash_value_list.push(this.trash_threadID);
+              this.trash_value_list.push(this.trash_snippet);
+              this.trash_value_list.push(this.trash_from);
+              this.trash_value_list.push(this.trash_subject);
+              this.trash_value_list.push(this.trash_body);
+
+              let trashs = new Trash();
+              trashs.Trash_ID = this.trash_value_list[0];
+              trashs.Trash_ThreadID = this.trash_value_list[1];
+              trashs.Snippet = this.trash_value_list[2];
+              trashs.From = this.trash_value_list[3];
+              trashs.Subject = this.trash_value_list[4]
+              trashs.Body = this.trash_value_list[5]
+              this.trash_obj.push(JSON.parse(JSON.stringify(trashs)));
+
+              this.trash_value_list = null;
+
+              console.log(this.trash_obj)
+
+
+            }
+
+          })
+        }
+      })
+    }
+  }
+
   //List draft in draft inbox
   draftList(){
 
     this.open_draft_inbox = true;
     this.read_popup = false;
+    this.open_trash_inbox = false;
     if(this.user != null && !this.stop_show_drafts_inbox){
       this.stop_show_drafts_inbox = true;
       this.gmailService.draftList(this.user)
@@ -514,11 +635,13 @@ export class EmailListComponent implements OnInit {
   //Allow the user to search via text
   text_search(){
 
-    if((<HTMLInputElement>document.getElementById("Search")).value && (<HTMLInputElement>document.getElementById("Search")).value.length > 2){
+    if((<HTMLInputElement>document.getElementById("Search")).value && (<HTMLInputElement>document.getElementById("Search")).value.length >= 3){
       this.search = true;
     }
-    else{
+    else if((<HTMLInputElement>document.getElementById("Search")).value.length == 0 ){
+      this.resetForm();
       this.search = false;
+      this.search_obj = [];
     }
 
     if((<HTMLInputElement>document.getElementById("Search")).value.length >= 3 && this.search_obj.length == 0){
@@ -534,7 +657,7 @@ export class EmailListComponent implements OnInit {
         }
       }
     }
-    else if((<HTMLInputElement>document.getElementById("Search")).value.length == 0){
+    else if((<HTMLInputElement>document.getElementById("Search")).value.length == 0 ){
       this.resetForm();
       this.search = false;
       this.search_obj = [];

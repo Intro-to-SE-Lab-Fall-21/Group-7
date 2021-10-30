@@ -1,392 +1,799 @@
-.email-button{
-    background-color: white;
-    border-width: 1px;
-    border-style: solid;
-    border-color: lightgray;
-    border-left-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    font-size: larger;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    width: 100%;
-    height: 90px;
-    margin-bottom: 1px;
-}
-.email-button:hover{
-    box-shadow: 0 1.5px 2.5px rgba(0, 0, 0, 0.60);
-    background-color: rgb(247, 247, 247);
-}
-
-.inbox{
-    position: relative;
+@media only screen and (min-width: 1080px){
+    .email-button{
+        background-color: white;
+        border-width: 1px;
+        border-style: solid;
+        border-color: lightgray;
+        border-left-style: none;
+        border-right-style: none;
+        border-bottom-style: none;
+        font-size: larger;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        width: 100%;
+        height: 90px;
+        margin-bottom: 1px;
+    }
+    .email-button:hover{
+        box-shadow: 0 1.5px 2.5px rgba(0, 0, 0, 0.60);
+        background-color: rgb(247, 247, 247);
+    }
     
-    width: 100%;
+    .inbox{
+        position: relative;
+        
+        width: 100%;
+    }
+    
+    .Scroll {
+        position: absolute;
+        left: 12%;
+        width: 45%;
+        height: auto;
+        max-height: 75%;
+        overflow-y: scroll;
+    }
+    
+    .read-scroll{
+        height: 90%;
+        width: 90%;
+        overflow-y: scroll;
+    }
+    
+    .compose-button{
+        position: absolute;
+        left: 90%;
+        margin-top: -10%;
+    }
+    
+    .button-style{
+        background-color: #000080;
+        color: white;
+        border: #000080;
+        border-radius: 2px;
+        width: 8%;
+        height: 30px;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+    }
+    
+    .nav-bar{
+        position: absolute;
+        margin-top: 5%;
+        width: 10%;
+        margin-left: 1%;
+    }
+    
+    .list-form{
+        margin-top: 2%;
+    }
+    
+    .button-style-nav{
+        background-color: #000080;
+        color: white;
+        border: #000080;
+        border-radius: 2px;
+        width: 100%;
+        height: 30px;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+        margin-bottom: 4px;
+    }
+    
+    .compose-style{
+        background-color: #000080;
+        color: white;
+        border: #000080;
+        border-radius: 2px;
+        width: 100%;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+    }
+    
+    .reply-button{
+        background-color: #000080;
+        color: white;
+        border: #000080;
+        border-radius: 2px;
+        width: auto;
+        height: 30px;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+    }
+    
+    .forward-button{
+        background-color: #000080;
+        color: white;
+        border: #000080;
+        border-radius: 2px;
+        width: auto;
+        height: 30px;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+        margin-left: 1%;
+    }
+    
+    .attachment-button{
+        background-color: #000080;
+        color: white;
+        border: #000080;
+        border-radius: 2px;
+        width: auto;
+        height: 30px;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+        margin-left: 1%;
+    }
+    
+    .compose_div{
+        position: absolute;
+        left: 12%;
+        width: auto;
+        margin-top: .4%;
+    }
+    
+    .send-form{
+        position: absolute;
+        left: 60%;
+        width: 35%;
+        border-style: none;
+        padding: 2%;
+        box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
+        background-color: white;
+    }
+    
+    .draft-form{
+        position: absolute;
+        left: 60%;
+        width: 35%;
+        border-style: none;
+        padding: 2%;
+        box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
+        background-color: white;
+    }
+    
+    .checkbox_input{
+        position: absolute;
+        left: 66%;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+    }
+    
+    .check_margin{
+        margin-right: 5px;
+    }
+    
+    .reply-form{
+        position: absolute;
+        padding: 2%;
+        box-shadow: 0 1.5px 2.5px rgba(0, 0, 0, 0.20);
+        width: 100%;
+    
+        background-color: white;
+    }
+    
+    .read-form{
+        position: relative;
+        box-shadow: 0 1.5px 2.5px rgba(0, 0, 0, 0.20);
+        padding: 2%;
+        background-color: white;
+        margin-bottom: 1px;
+    }
+    
+    .read-scroll-form{
+        position: absolute;
+        left: 58%;
+        box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
+        border-width: 1px;
+        overflow-wrap: break-word;
+        width: 40%;
+        height: auto;
+        max-height: 75%;
+        overflow-y: scroll;
+    }
+    .read-scroll-form2{
+        position: absolute;
+        border-style: solid;
+        left: 10%;
+        padding: 2%;
+        box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
+        overflow-wrap: break-word;
+        width: 40%;
+        height: 85%;
+        overflow-y: scroll;
+    }
+    
+    .read_body{
+        width: 90%;
+        height: 80%;
+        overflow-wrap: break-word;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    
+    .text-input-style{
+        width: 100%;
+        border-top-style: none;
+        border-left-style: none;
+        border-right-style: none;
+        outline-width: 0;
+        border-color: #000080;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+    
+    .auto-button{
+        position: absolute;
+        bottom: 1%;
+    }
+    
+    .hide{
+        border-style: none;
+        border-color: white;
+        color: white;
+        background-color: white;
+    }
+    
+    .search-input-style{
+        width: 28%;
+        position: absolute;
+        left: 22%;
+        border-top-style: none;
+        border-left-style: none;
+        border-right-style: none;
+        outline-width: 0;
+        border-color: #000080;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+    
+    }
+    .bold{
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .table {
+        padding: 2px;
+        width: 100%;
+        display: flex;
+        flex-flow: row wrap;
+      }
+    .table-cell {
+        flex: 1 30%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: justify;
+    }
+    .table-cell2 {
+        flex: 1 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: justify;
+    }
+    
+    .colspan-3{
+        flex: 1 100%;
+    }
+    .body-input-style{
+        border: solid;
+        border-width: 2px;
+        border-radius: 2px;
+        outline: none;
+        border-color: #000080;
+        width: 100%;
+        height: 50%;
+    
+    }
+    
+    .submit-email-button{
+        background-color: #000080;
+        color: white;
+        border: #000080;
+        border-radius: 2px;
+        width: auto;
+        height: 30px;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+    }
+    
+    .fa-paperclip{
+        color: #000080;
+        font-size: x-large;
+        transform: rotate(45deg);
+        cursor: pointer;
+    }
+    
+    .close_button{
+        color: white;
+    }
+    
+    .attachment_close{
+        color: #000080;
+    }
+    
+    .file_close{
+        background-color: white;
+        border-style: none;
+    }
+    
+    .close_button_compose{
+        background-color: #000080;
+        border-style: none;
+        position: relative;
+        left: 95%;
+    
+    }
+    
+    .paper-clip{
+        margin-left: 3%;
+        width: auto;
+    }
+    
+    .discard{
+        background-color: #000080;
+        color: white;
+        border: #000080;
+        border-radius: 2px;
+        width: auto;
+        height: 30px;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+        margin-left: 1%;
+    }
+    
+    .paper-clip:hover{
+        background-color: rgb(228, 228, 228);
+        border-radius: 50px;
+        height: auto;
+    }
+    
+    .fa-trash{
+        color: red;
+    }
+    
+    .delete-email{
+        position: absolute;
+        left: 93%;
+        background-color: transparent;
+        border-style: solid;
+        border-color: transparent;
+        height: auto;
+    }
+    
+    .delete-email:hover{
+        background-color: rgb(228, 228, 228);
+        border-radius: 50px;
+        height: auto;
+    }
+    
+    .delete-email{
+        height: 30px;
+    }
+    
+    input[type="file"] {
+        display: none;
+    }
+    
+    .email-info{
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-weight: bold;
+        font-size: larger;
+    }
+    
+    .read-footer{
+        position: absolute;
+        left: 58%;
+        margin-top: -3%;
+        width: 30%;
+    }
+
+    .mobile-view{
+        display: none;
+    }
+    
 }
 
-.Scroll {
-    position: absolute;
-    left: 12%;
-    width: 45%;
-    height: auto;
-    max-height: 75%;
-    overflow-y: scroll;
+
+@media only screen and (max-width: 1080px){
+
+    .sidenav {
+        height: 100%; /* 100% Full-height */
+        width: 0; /* 0 width - change this with JavaScript */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Stay on top */
+        top: 0; /* Stay at the top */
+        left: 0;
+        background-color: #111; /* Black*/
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 60px; /* Place content 60px from the top */
+        transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+      }
+      
+      /* The navigation menu links */
+      .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+      }
+      
+      /* When you mouse over the navigation links, change their color */
+      .sidenav a:hover {
+        color: #f1f1f1;
+      }
+      
+      /* Position and style the close button (top right corner) */
+      .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+      }
+      
+      /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+      #main {
+        transition: margin-left .5s;
+        padding: 20px;
+      }
+
+    .email-button-mobile{
+        background-color: white;
+        border-width: 1px;
+        border-style: solid;
+        border-color: lightgray;
+        border-left-style: none;
+        border-right-style: none;
+        border-bottom-style: none;
+        font-size: larger;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        width: 100%;
+        height: 90px;
+        margin-bottom: 1px;
+        color: black;
+    }
+    .email-button:hover{
+        box-shadow: 0 1.5px 2.5px rgba(0, 0, 0, 0.60);
+        background-color: rgb(247, 247, 247);
+    }
+
+    .Scroll-mobile {
+        position: absolute;
+        left: 1%;
+        width: 95%;
+        height: auto;
+        max-height: 60%;
+        overflow-y: scroll;
+        border-style: solid;
+        border-color: transparent;
+    }
+    
+    .read-scroll{
+        height: 90%;
+        width: 90%;
+        overflow-y: scroll;
+    }
+    
+
+    .button-style-nav-mobile{
+        
+        position: absolute;
+        left: 2%;
+        width: 50%;
+        border-style: solid;
+        border-color: white;
+        background-color: transparent;
+        color: white;
+    }
+
+    .list-form-mobile{
+        margin-top: 5%;
+    }
+
+    .compose_div-mobile{
+        position: absolute;
+        left: 1%;
+        margin-top: -2%;
+    }
+
+    .compose-style-mobile{
+        background-color: #000080;
+        color: white;
+        border: #000080;
+        border-radius: 2px;
+        width: 100%;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: larger;
+    }
+
+    .table-mobile{
+        padding: 2px;
+        width: 100%;
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    .table-cell-mobile{
+        flex: 1 30%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: justify;
+    }
+
+    .table-cell2-mobile{
+        flex: 1 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: justify;
+    }
+
+    .delete-email-mobile{
+        position: absolute;
+        left: 90%;
+        background-color: transparent;
+        border-style: solid;
+        border-color: transparent;
+        height: auto;
+    }
+
+    .delete-email-mobile{
+        height: 30px;
+    }
+
+    .fa-trash{
+        color: red;
+    }
+
+    .inbox-mobile{
+        position: relative;
+        width: 100%;
+    }
+
+    .mobile-search{
+        border-style: solid;
+        position: absolute;
+        width: 100%;
+    }
+
+    .email-button-mobile{
+        font-size:15px;
+        cursor:pointer
+    }
+
+    .search-input-style-mobile{
+        width: 95%;
+        position: absolute;
+        left: 1%;
+        border-top-style: none;
+        border-left-style: none;
+        border-right-style: none;
+        outline-width: 0;
+        border-color: #000080;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+    .bold-mobile{
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    .email-button{
+        display: none;
+    }
+    .email-button:hover{
+        display: none;
+    }
+
+    
+    .inbox{
+        display: none;
+    }
+
+    
+    .Scroll {
+        display: none;
+    }
+    
+    .read-scroll{
+        display: none;
+    }
+    
+    .compose-button{
+        display: none;
+    }
+    
+    .button-style{
+        display: none;
+    }
+    
+    .nav-bar{
+        display: none;
+    }
+    
+    .list-form{
+        display: none;
+    }
+    
+    .button-style-nav{
+        display: none;
+    }
+    
+    .compose-style{
+        display: none;
+    }
+    
+    .reply-button{
+        display: none;
+    }
+    
+    .forward-button{
+        display: none;
+    }
+    
+    .attachment-button{
+        display: none;
+    }
+    
+    .compose_div{
+        display: none;
+    }
+    
+    .send-form{
+        display: none;
+    }
+    
+    .draft-form{
+        display: none;
+    }
+    
+    .checkbox_input{
+        display: none;
+    }
+    
+    .check_margin{
+        display: none;
+    }
+    
+    .reply-form{
+        display: none;
+    }
+    
+    .read-form{
+        display: none;
+    }
+    
+    .read-scroll-form{
+        display: none;
+    }
+    .read-scroll-form2{
+        display: none;
+    }
+    
+    .read_body{
+        display: none;
+    }
+    
+    .text-input-style{
+        display: none;
+    }
+    
+    .auto-button{
+        display: none;
+    }
+    .auto-button-mobile{
+        display: none;
+    }
+    
+    .hide{
+        display: none;
+    }
+    
+    .search-input-style{
+        display: none;
+    }
+    .bold{
+        display: none;
+    }
+    .table {
+        display: none;
+    }
+
+    .table-cell {
+        display: none;
+    }
+    .table-cell2 {
+        display: none;
+    }
+    
+    .colspan-3{
+        display: none;
+    }
+    .body-input-style{
+        display: none;
+    
+    }
+    
+    .submit-email-button{
+        display: none;
+    }
+    
+    .fa-paperclip{
+        display: none;
+    }
+    
+    .close_button{
+        display: none;
+    }
+    
+    .attachment_close{
+        display: none;
+    }
+    
+    .file_close{
+        display: none;
+    }
+    
+    .close_button_compose{
+
+        display: none;
+    }
+    
+    .paper-clip{
+        display: none;
+    }
+    
+    .discard{
+        display: none;
+    }
+    
+    .paper-clip:hover{
+        display: none;
+    }
+    
+    
+    .delete-email{
+        display: none;
+
+    }
+    
+    .delete-email:hover{
+        display: none;
+
+    }
+    
+    .delete-email{
+        display: none;
+
+    }
+    
+    input[type="file"] {
+        display: none;
+
+    }
+    
+    .email-info{
+        display: none;
+
+    }
+    
+    .read-footer{
+        display: none;
+
+    }
 }
 
-.read-scroll{
-    height: 90%;
-    width: 90%;
-    overflow-y: scroll;
-}
-
-.compose-button{
-    position: absolute;
-    left: 90%;
-    margin-top: -10%;
-}
-
-.button-style{
-    background-color: #000080;
-    color: white;
-    border: #000080;
-    border-radius: 2px;
-    width: 8%;
-    height: 30px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: larger;
-}
-
-.nav-bar{
-    position: absolute;
-    margin-top: 5%;
-    width: 10%;
-    margin-left: 1%;
-}
-
-.list-form{
-    margin-top: 2%;
-}
-
-.button-style-nav{
-    background-color: #000080;
-    color: white;
-    border: #000080;
-    border-radius: 2px;
-    width: 100%;
-    height: 30px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: larger;
-    margin-bottom: 4px;
-}
-
-.compose-style{
-    background-color: #000080;
-    color: white;
-    border: #000080;
-    border-radius: 2px;
-    width: 100%;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: larger;
-}
-
-.reply-button{
-    background-color: #000080;
-    color: white;
-    border: #000080;
-    border-radius: 2px;
-    width: auto;
-    height: 30px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: larger;
-}
-
-.forward-button{
-    background-color: #000080;
-    color: white;
-    border: #000080;
-    border-radius: 2px;
-    width: auto;
-    height: 30px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: larger;
-    margin-left: 1%;
-}
-
-.attachment-button{
-    background-color: #000080;
-    color: white;
-    border: #000080;
-    border-radius: 2px;
-    width: auto;
-    height: 30px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: larger;
-    margin-left: 1%;
-}
-
-.compose_div{
-    position: absolute;
-    left: 12%;
-    width: auto;
-    margin-top: .4%;
-}
-
-.send-form{
-    position: absolute;
-    left: 60%;
-    width: 35%;
-    border-style: none;
-    padding: 2%;
-    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
-    background-color: white;
-}
-
-.draft-form{
-    position: absolute;
-    left: 60%;
-    width: 35%;
-    border-style: none;
-    padding: 2%;
-    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
-    background-color: white;
-}
-
-.checkbox_input{
-    position: absolute;
-    left: 66%;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: larger;
-}
-
-.check_margin{
-    margin-right: 5px;
-}
-
-.reply-form{
-    position: absolute;
-    padding: 2%;
-    box-shadow: 0 1.5px 2.5px rgba(0, 0, 0, 0.20);
-    width: 100%;
-
-    background-color: white;
-}
-
-.read-form{
-    position: relative;
-    box-shadow: 0 1.5px 2.5px rgba(0, 0, 0, 0.20);
-    padding: 2%;
-    background-color: white;
-    margin-bottom: 1px;
-}
-
-.read-scroll-form{
-    position: absolute;
-    left: 58%;
-    box-shadow: 0 0 0.25px 0.75px rgba(0, 0, 0, 0.20);
-    border-width: 1px;
-    overflow-wrap: break-word;
-    width: 40%;
-    height: auto;
-    max-height: 75%;
-    overflow-y: scroll;
-}
-.read-scroll-form2{
-    position: absolute;
-    border-style: solid;
-    left: 10%;
-    padding: 2%;
-    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.20);
-    overflow-wrap: break-word;
-    width: 40%;
-    height: 85%;
-    overflow-y: scroll;
-}
-
-.read_body{
-    width: 90%;
-    height: 80%;
-    overflow-wrap: break-word;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-.text-input-style{
-    width: 100%;
-    border-top-style: none;
-    border-left-style: none;
-    border-right-style: none;
-    outline-width: 0;
-    border-color: #000080;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-}
-
-.auto-button{
-    position: absolute;
-    bottom: 1%;
-}
-
-.hide{
-    border-style: none;
-    border-color: white;
-    color: white;
-    background-color: white;
-}
-
-.search-input-style{
-    width: 28%;
-    position: absolute;
-    left: 22%;
-    border-top-style: none;
-    border-left-style: none;
-    border-right-style: none;
-    outline-width: 0;
-    border-color: #000080;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-
-}
-.bold{
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.table {
-    padding: 2px;
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-  }
-.table-cell {
-    flex: 1 30%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: justify;
-}
-.table-cell2 {
-    flex: 1 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: justify;
-}
-
-.colspan-3{
-    flex: 1 100%;
-}
-.body-input-style{
-    border: solid;
-    border-width: 2px;
-    border-radius: 2px;
-    outline: none;
-    border-color: #000080;
-    width: 100%;
-    height: 50%;
-
-}
-
-.submit-email-button{
-    background-color: #000080;
-    color: white;
-    border: #000080;
-    border-radius: 2px;
-    width: auto;
-    height: 30px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: larger;
-}
-
-.fa-paperclip{
-    color: #000080;
-    font-size: x-large;
-    transform: rotate(45deg);
-    cursor: pointer;
-}
-
-.close_button{
-    color: white;
-}
-
-.attachment_close{
-    color: #000080;
-}
-
-.file_close{
-    background-color: white;
-    border-style: none;
-}
-
-.close_button_compose{
-    background-color: #000080;
-    border-style: none;
-    position: relative;
-    left: 95%;
-
-}
-
-.paper-clip{
-    margin-left: 3%;
-    width: auto;
-}
-
-.discard{
-    background-color: #000080;
-    color: white;
-    border: #000080;
-    border-radius: 2px;
-    width: auto;
-    height: 30px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: larger;
-    margin-left: 1%;
-}
-
-.paper-clip:hover{
-    background-color: rgb(228, 228, 228);
-    border-radius: 50px;
-    height: auto;
-}
-
-.fa-trash{
-    color: red;
-}
-
-.delete-email{
-    position: absolute;
-    left: 93%;
-    background-color: transparent;
-    border-style: solid;
-    border-color: transparent;
-    height: auto;
-}
-
-.delete-email:hover{
-    background-color: rgb(228, 228, 228);
-    border-radius: 50px;
-    height: auto;
-}
-
-.delete-email{
-    height: 30px;
-}
-
-input[type="file"] {
-    display: none;
-}
-
-.email-info{
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: bold;
-    font-size: larger;
-}
-
-.read-footer{
-    position: absolute;
-    left: 58%;
-    margin-top: -3%;
-    width: 30%;
-}
