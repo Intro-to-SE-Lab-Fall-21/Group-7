@@ -74,6 +74,15 @@ export class GmailService {
   //User input is stored in this object
   formData : Gmail;
 
+  //Trash
+  trash_ID: string;
+  trash_ThreadID: string;
+  trash_Snippet: string;
+  trash_From: string;
+  trash_To: string;
+  trash_Subject: string;
+  trash_Body: string;
+
   //AWS API Strings
   //Used for downloading attachments
   readonly rootURLp = 'https://jwo9zx9c16.execute-api.us-east-2.amazonaws.com/upload';
@@ -104,6 +113,80 @@ export class GmailService {
         })
       })
     })
+  }
+
+  public trashList(user: gapi.auth2.GoogleUser) : Promise<gapi.client.gmail.ListMessagesResponse>{
+    return new Promise( resolve => {
+      user.reloadAuthResponse().then(refreshed => {
+        gapi.client.gmail.users.messages.list({
+          userId: user.getId(),
+          access_token: refreshed.access_token,
+          maxResults: 10,
+          labelIds: "TRASH"
+        }).then( response => {
+          resolve(response.result)
+          //console.log(response.result)
+        })
+      })
+    })
+  }
+
+  public move_toTrash(user: gapi.auth2.GoogleUser, move_email_to_trash: string){
+
+    const auth2 = gapi.auth2.getAuthInstance(); 
+
+    const option = new gapi.auth2.SigninOptionsBuilder();
+    option.setScope('email https://www.googleapis.com/auth/gmail.modify');
+  
+    const googleUser = auth2.currentUser.get();
+    googleUser.grant(option).then(
+      function(success){
+        console.log(JSON.stringify({message: "success", value: success}));
+  
+        gapi.load('client:auth2', () => {
+          gapi.client.load('gmail', 'v1', () => {
+              gapi.client.gmail.users.messages.trash({
+                userId: user.getBasicProfile().getEmail(),
+                id: move_email_to_trash,
+              }).then(res => {
+                console.log("done!", res)
+              });
+            })
+          });
+      },
+      function(fail){
+        alert(JSON.stringify({message: "fail", value: fail}));
+      });
+     
+  }
+
+  public deleteEmail(user: gapi.auth2.GoogleUser, remove_email: string){
+
+    const auth2 = gapi.auth2.getAuthInstance(); 
+
+    const option = new gapi.auth2.SigninOptionsBuilder();
+    option.setScope('email https://mail.google.com/');
+  
+    const googleUser = auth2.currentUser.get();
+    googleUser.grant(option).then(
+      function(success){
+        console.log(JSON.stringify({message: "success", value: success}));
+  
+        gapi.load('client:auth2', () => {
+          gapi.client.load('gmail', 'v1', () => {
+              gapi.client.gmail.users.messages.delete({
+                userId: user.getBasicProfile().getEmail(),
+                id: remove_email,
+              }).then(res => {
+                console.log("done!", res)
+              });
+            })
+          });
+      },
+      function(fail){
+        alert(JSON.stringify({message: "fail", value: fail}));
+      });
+     
   }
 
   //List the emails in the inbox
@@ -616,6 +699,33 @@ export class GmailService {
 
           this.FileUpload(base64)
 
+        })
+      })
+    })
+  }
+
+  public getTrashMessage(user: gapi.auth2.GoogleUser, trash_id: string) : Promise<string>{
+    return new Promise(resolve => {
+      user.reloadAuthResponse().then(refreshed => {
+        gapi.client.gmail.users.messages.get({
+          userId: user.getId(),
+          access_token: user.getAuthResponse().access_token,
+          id: trash_id
+        }).then ( response => {
+          resolve(response.result.id)
+          console.log(response.result)
+
+          this.trash_ID = response.result.id;
+          this.trash_ThreadID = response.result.threadId;
+          this.trash_Snippet = response.result.snippet;
+          this.trash_From = response.result.payload.headers.find(x => x.name === 'From').value;
+          this.trash_To = response.result.payload.headers.find(x => x.name === 'To').value;
+          this.trash_Subject = response.result.payload.headers.find(x => x.name === 'Subject').value;
+          this.trash_Body = response.result.payload.parts[0].body.data;
+
+          this.trash_Body =  this.trash_Body.replace(/-/g, '/');
+          this.trash_Body = atob(this.trash_Body)
+          
         })
       })
     })
