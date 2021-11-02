@@ -475,6 +475,13 @@ export class EmailListComponent implements OnInit {
     }
   }
 
+  refresh_list(){
+    this.id_list = [];
+    this.message = '';
+    this.list_obj = [];
+    this.list()
+  }
+
   //List email in inbox
   list(){
     this.gmailService.list(this.user)

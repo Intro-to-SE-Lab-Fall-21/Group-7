@@ -24,6 +24,9 @@
                 <form #form4="ngForm" (submit)="onSearch(form4)" autocomplete="off">
                     <input placeholder="Search" (keyup)='text_search()' class="search-input-style" type="text" id="Search" name="Search" #Search="ngModel" [(ngModel)]="gmailService.formData.Search">
                 </form>
+                <div class="refresh-div" *ngIf="user != null">
+                    <button class="refresh-button" (click)="refresh_list()"><i class="fa fa-refresh"></i></button>
+                </div>
                 <br>
                 <br>
             </div>
@@ -253,12 +256,13 @@
         <button class="hide" id="show_inbox" (click)="show()"></button>
     </div>
 
-    <div *ngIf="user != null">
-        <button class="mobile-hamburger" (click)="side_bar_open()">&#9776;</button> Inbox
+    <div class="hamburger-font" *ngIf="user != null">
+        <button class="mobile-hamburger" (click)="side_bar_open()">&#9776;</button>Inbox
         <br>
     </div>
 
     <div id="mySidenav" class="sidenav" *ngIf="user != null">
+        <a>{{user.getBasicProfile().getName()}}</a>
         <a href="javascript:void(0)" class="closebtn" (click)="side_bar_close()">&times;</a>
         <button class="button-style-nav-mobile" (click)="show()">Inboxs</button>
         <br>
@@ -266,7 +270,7 @@
     </div>
 
 
-    <div class="list-form-mobile" *ngIf="user != null">
+    <div class="list-form-mobile" *ngIf="user != null && !compose_popup">
         <div>
             <div class="compose_div-mobile" *ngIf="user != null">
                 <button class="compose-style-mobile" (click)="open_compose()">Compose <i class="fa fa-envelope-open"></i></button>
@@ -297,7 +301,7 @@
                             </div>
                         </div>
                     </button>
-                    <button class="delete-email-mobile" (click)="deleteEmail(item.Thread_ID)"><i class="fa fa-trash"></i></button>
+                    <button class="delete-email-mobile" (click)="moveTrash(item.Thread_ID)"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
 
@@ -348,5 +352,40 @@
             </div>
         </div>
     </div>
+
 </div>
+
+<ng-template [ngIf]="compose_popup">
+    <div class="send-form-mobile">
+        <button class="close_button_compose_mobile" (click)="send_close()"><i class="close_button_mobile fa fa-chevron-left"></i></button>
+        <br>
+        <br>
+        <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+            <div>
+                <input placeholder="To:" class="text-input-style-mobile" type="text" name="To" #To="ngModel" [(ngModel)]="gmailService.formData.To" autocomplete="off">
+            </div>
+            <br>
+    
+            <div>
+                <input placeholder="Subject:" class="text-input-style-mobile" type="text" name="Subject" #Subject="ngModel" [(ngModel)]="gmailService.formData.Subject">
+            </div>
+            <br>
+            <div>
+                <textarea placeholder="Compose" class="body-input-style-mobile" name="Body" #Body="ngModel" [(ngModel)]="gmailService.formData.Body" rows="13" cols="70"></textarea>
+            </div>
+            <br>
+            <div *ngIf="file_explorer"><button class="file_close-mobile" (click)='empty_browse()'><i class="attachment_close-mobile fa fa-close"></i></button>
+                {{gmailService.attachment_name}}
+            </div>
+            <br>
+            <span>
+                <button class="mobile-send-button" type="submit"><i class="paper-plane-mobile fa fa-paper-plane"></i></button>
+                <label class="paper-clip-mobile" *ngIf="!file_explorer">
+                    <input class="input-paperclip fa fa-paperclip" type="file" id="upload" class="browse" (change)="onNativeInputFileSelect($event)" #inputFile /><i class="paperclip-mobile fa fa-paperclip"></i>
+                </label>
+                <span class="checkbox_input-mobile"><input id="check" class="check_margin-mobile" type="checkbox">Save as Draft</span>
+            </span>
+        </form>
+    </div>
+</ng-template>
 
