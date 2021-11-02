@@ -9,6 +9,8 @@
         <button class="button-style-nav" (click)="show()">Inbox</button>
         <br>
         <button class="button-style-nav" (click)="draftList()">Drafts</button>
+        <br>
+        <button class="button-style-nav" (click)="trashList()">Trash</button>
     </div>
 
 
@@ -26,7 +28,7 @@
                 <br>
             </div>
             
-            <div *ngIf="!search && !open_draft_inbox" class="Scroll">
+            <div *ngIf="!search && !open_draft_inbox && !open_trash_inbox" class="Scroll">
                 <div class="inbox" *ngFor="let item of list_obj">
                     <button (click)="threadEmail(item.Thread_ID)" class="email-button">
      
@@ -46,7 +48,7 @@
                             </div>
                         </div>
                     </button>
-                    <button class="delete-email" (click)="deleteEmail(item.Thread_ID)"><i class="fa fa-trash"></i></button>
+                    <button class="delete-email" (click)="moveTrash(item.Thread_ID)"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
 
@@ -93,6 +95,30 @@
                             </div>
                         </div>
                     </button>
+                </div>
+            </div>
+
+            <div *ngIf="open_trash_inbox" class="Scroll">
+                <div class="inbox" *ngFor="let item of trash_obj">
+                    <button (click)="edit_draft(item.Trash_ID)" class="email-button">
+     
+                        <div class="table">
+                            <div class="table-cell">
+                                <div class="bold">
+                                    {{item.From}}
+                                </div>
+                            </div>
+                            <div class="table-cell2">
+                                <div class="bold">
+                                    {{item.Subject}} 
+                                </div>
+                            </div>
+                            <div class="table-cell2">
+                                {{item.Snippet}}
+                            </div>
+                        </div>
+                    </button>
+                    <button class="delete-email" (click)="deleteEmail(item.Trash_ID)"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
         </div>
@@ -215,4 +241,112 @@
     </div>
     
 </ng-template>
+
+
+
+
+
+
+<div class="mobile-view">
+    
+    <div class="auto-button-mobile">
+        <button class="hide" id="show_inbox" (click)="show()"></button>
+    </div>
+
+    <div *ngIf="user != null">
+        <button class="mobile-hamburger" (click)="side_bar_open()">&#9776;</button> Inbox
+        <br>
+    </div>
+
+    <div id="mySidenav" class="sidenav" *ngIf="user != null">
+        <a href="javascript:void(0)" class="closebtn" (click)="side_bar_close()">&times;</a>
+        <button class="button-style-nav-mobile" (click)="show()">Inboxs</button>
+        <br>
+        <button class="button-style-nav-mobile" (click)="draftList()">Drafts</button>
+    </div>
+
+
+    <div class="list-form-mobile" *ngIf="user != null">
+        <div>
+            <div class="compose_div-mobile" *ngIf="user != null">
+                <button class="compose-style-mobile" (click)="open_compose()">Compose <i class="fa fa-envelope-open"></i></button>
+            </div>
+            <br>
+            <br>
+            <form #form4="ngForm" (submit)="onSearch(form4)" autocomplete="off">
+                <input placeholder="Search" (keyup)='text_search()' class="search-input-style-mobile" type="text" id="Search" name="Search" #Search="ngModel" [(ngModel)]="gmailService.formData.Search">
+            </form>
+            <br>
+            <br>
+            <div *ngIf="!search && !open_draft_inbox" class="Scroll-mobile">
+                <div class="inbox-mobile" *ngFor="let item of list_obj">
+                    <button (click)="threadEmail(item.Thread_ID)" class="email-button-mobile">
+                        <div class="table-mobile">
+                            <div class="table-cell-mobile">
+                                <span class="bold-mobile">
+                                    {{item.From}}
+                                </span>
+                            </div>
+                            <div class="table-cell2-mobile">
+                                <div class="bold-mobile">
+                                    {{item.Subject}} 
+                                </div>
+                            </div>
+                            <div class="table-cell2-mobile">
+                                {{item.Snippet}}
+                            </div>
+                        </div>
+                    </button>
+                    <button class="delete-email-mobile" (click)="deleteEmail(item.Thread_ID)"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+
+            <div *ngIf="search" class="Scroll-mobile">
+                <div class="inbox-mobile" *ngFor="let item of search_obj">
+                    <button (click)="threadEmail(item.Thread_ID)" class="email-button-mobile">
+     
+                        <div class="table-mobile">
+                            <div class="table-cell-mobile">
+                                <div class="bold">
+                                    {{item.From}}
+                                </div>
+                            </div>
+                            <div class="table-cell2-mobile">
+                                <div class="bold">
+                                    {{item.Subject}} 
+                                </div>
+                            </div>
+                            <div class="table-cell2-mobile">
+                                {{item.Snippet}}
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="open_draft_inbox" class="Scroll-mobile">
+                <div class="inbox-mobile" *ngFor="let item of draft_obj">
+                    <button (click)="edit_draft(item.Draft_ID)" class="email-button-mobile">
+     
+                        <div class="table-mobile">
+                            <div class="table-cell-mobile">
+                                <div class="bold">
+                                    {{item.From}}
+                                </div>
+                            </div>
+                            <div class="table-cell2-mobile">
+                                <div class="bold">
+                                    {{item.Subject}} 
+                                </div>
+                            </div>
+                            <div class="table-cell2-mobile">
+                                {{item.Snippet}}
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
